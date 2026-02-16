@@ -25,13 +25,13 @@ export default function Hero() {
     <section className="flex flex-col items-center justify-center text-center py-16 px-4 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
       {/* Title */}
       <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
-        CONTENNA
+        CONTENABLE
       </h1>
 
       {/* Slogan */}
       <p className="text-base sm:text-lg lg:text-2xl text-gray-600 mb-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl">
         Discover ideas, insights, and inspiration all in one connected space.
-        Contenna brings you closer to the content that moves the world.
+        Contenable brings you closer to the content that moves the world.
       </p>
 
       {/* Search Bar */}

@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ReduxProvider } from "@/store/Provider";
-
 // Font setup
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +16,18 @@ const geistMono = Geist_Mono({
 
 // Metadata (SEO)
 export const metadata: Metadata = {
-  title: "Contenna - Search Article here",
-  description: "Next.js + Clerk + shadcn/ui clean layout",
+  title: {
+    default: "Contenable",
+    template: "%s | Contenable",
+  },
+  description: "Contenable - Smart Article Search Platform",
+  icons: {
+    icon: "/globe.svg",
+    shortcut: "/globe.svg",
+    apple: "/globe.svg",
+  },
 };
+
 
 // Root layout tanpa header/footer
 export default function RootLayout({

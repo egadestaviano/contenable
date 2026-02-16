@@ -17,7 +17,7 @@ export default function NotFoundPage() {
           <div className="relative flex flex-col items-center">
             <Image
               src="/globe.svg"
-              alt="CONTENNA Logo"
+              alt="Contenable Logo"
               width={80}
               height={80}
               className="opacity-80"
