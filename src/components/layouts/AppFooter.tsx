@@ -25,7 +25,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-10 md:flex md:justify-between gap-8">
         {/* Brand + Description */}
         <div className="flex flex-col md:justify-between w-full md:max-w-1/3 px-2 sm:px-10 md:px-0">
-          <h2 className="text-xl font-semibold mb-2 text-white">CONTENNA</h2>
+          <h2 className="text-xl font-semibold mb-2 text-white">CONTENABLE</h2>
           <p className="text-sm text-gray-300 leading-relaxed">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
             consequuntur unde placeat ad doloremque harum sit numquam modi
@@ -128,10 +128,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:contact@contenna.com"
+                  href="mailto:contact@contenable.com"
                   className="hover:text-white transition-colors"
                 >
-                  contact@contenna.com
+                  contact@contenable.com
                 </a>
               </li>
             </ul>
@@ -144,7 +144,7 @@ export default function Footer() {
       {/* Credits */}
       <div className="text-center py-6 text-sm text-gray-400">
         © {new Date().getFullYear()}{" "}
-        <span className="font-medium text-gray-200">CONTENNA</span>. All rights
+        <span className="font-medium text-gray-200">CONTENABLE</span>. All rights
         reserved. <br /> 
       </div>
     </footer>

@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'api-contenna.trianandafajar.com',
         pathname: '/storage/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'api-contenable.egadestaviano.my.id',
+        pathname: '/storage/**'
       }
     ]
   }

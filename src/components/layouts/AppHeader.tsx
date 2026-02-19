@@ -68,7 +68,7 @@ export default function Header() {
           height={32}
           className="w-4 h-4 md:w-8 md:h-8"
         />
-        <span className="md:text-xl font-semibold">CONTENNA</span>
+        <span className="md:text-xl font-semibold">CONTENABLE</span>
       </Link>
 
       {/* Desktop Navigation */}
@@ -199,7 +199,7 @@ export default function Header() {
                     className="w-6 h-6"
                   />
                   <SheetTitle className="text-xl font-semibold">
-                    CONTENNA
+                    CONTENABLE
                   </SheetTitle>
                 </div>
                 <SheetClose asChild>
