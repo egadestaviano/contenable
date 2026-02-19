@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ReduxProvider } from "@/store/Provider";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // Font setup
 const geistSans = Geist({
   variable: "--font-geist-sans",
