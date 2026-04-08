@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/layouts/AppHeader";
 import Footer from "@/components/layouts/AppFooter";
+import { ReduxProvider } from "@/store/Provider";
 
 export default function MainLayout({
   children,
@@ -12,7 +13,9 @@ export default function MainLayout({
       <Header />
 
       <main className="container mx-auto flex-1 py-6">
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </main>
 
       <Footer />

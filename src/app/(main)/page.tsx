@@ -1,85 +1,113 @@
-'use client'
-
-import { useEffect } from 'react'
-import { Flame, Star, Sparkles } from 'lucide-react'
+import { Flame, Star, Sparkles, LucideProps } from 'lucide-react'
 import Hero from '@/components/Landing/Hero'
 import ArticleSection from '@/components/Landing/ArticleSection'
+import { Suspense } from 'react'
 
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import {
-  fetchNewBlogs,
-  fetchTopBlogs,
-  fetchFeaturedBlogs,
-} from '@/store/features/blogs/blogSlice'
-import { fetchTags } from '@/store/features/tags/tagSlice'
+// Basic Server-side fetcher
+async function getData(endpoint: string, params: string = "") {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}${params ? `?${params}` : ""}`;
+    const res = await fetch(url, {
+      next: { revalidate: 60 } // Cache for 1 minute
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (err) {
+    console.error(`Error fetching ${endpoint}:`, err);
+    return [];
+  }
+}
+
+// Sub-component to handle its own data fetching
+async function ArticlesContainer({ 
+  endpoint, 
+  params, 
+  title, 
+  icon: Icon, 
+  priorityCount = 0 
+}: { 
+  endpoint: string; 
+  params?: string; 
+  title: string; 
+  icon: React.ComponentType<LucideProps>; 
+  priorityCount?: number;
+}) {
+  const articles = await getData(endpoint, params);
+  return (
+    <ArticleSection
+      articles={articles}
+      priorityCount={priorityCount}
+      title={
+        <div className="flex items-center gap-2">
+          <Icon className={`w-6 h-6 ${endpoint === 'blogs' && params?.includes('top') ? 'text-red-500' : endpoint === 'blogs' && params?.includes('featured') ? 'text-yellow-500' : 'text-primary'}`} aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-bold">{title}</h2>
+        </div>
+      }
+    />
+  );
+}
+
+// Tags fetcher for Hero
+async function HeroWithData() {
+  const tags = await getData('tags');
+  return <Hero initialTags={tags} />;
+}
 
 export default function Home() {
-  const dispatch = useAppDispatch()
-
-  const { newBlogs, topBlogs, featuredBlogs, loading } = useAppSelector(
-    (state) => state.blogs
-  )
-
-  useEffect(() => {
-    dispatch(fetchTags())
-    dispatch(fetchNewBlogs())
-    dispatch(fetchTopBlogs())
-    dispatch(fetchFeaturedBlogs())
-  }, [dispatch])
-
   return (
-    <main
+    <div
       className="
         font-sans flex flex-col items-center 
-        min-h-screen 
-        px-2 sm:px-8 lg:px-16 xl:px-24 
+        w-full
+        px-4 sm:px-8 lg:px-16 xl:px-24 
         pb-16 
         gap-y-10 sm:gap-14 lg:gap-20
       "
     >
-      {/* Hero Section */}
+      {/* Hero Section - Streaming tags */}
       <section className="w-full max-w-7xl">
-        <Hero />
+        <Suspense fallback={<Hero />}>
+          <HeroWithData />
+        </Suspense>
       </section>
 
+      {/* New Articles */}
       <section className="w-full max-w-7xl">
-        <ArticleSection
-          articles={newBlogs}
-          loading={loading}
-          title={
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl sm:text-3xl font-bold">New Articles</h2>
-            </div>
-          }
-        />
+        <Suspense fallback={<ArticleSection title="Loading New Articles..." articles={[]} loading={true} />}>
+          <ArticlesContainer
+            endpoint="blogs"
+            params="sort=newest"
+            title="New Articles"
+            icon={Sparkles}
+            priorityCount={4}
+          />
+        </Suspense>
       </section>
 
+      {/* Top Articles */}
       <section className="w-full max-w-7xl">
-        <ArticleSection
-          articles={topBlogs}
-          loading={loading}
-          title={
-            <div className="flex items-center gap-2">
-              <Flame className="w-6 h-6 text-red-500" />
-              <h2 className="text-2xl sm:text-3xl font-bold">Top Articles</h2>
-            </div>
-          }
-        />
+        <Suspense fallback={<ArticleSection title="Loading Top Articles..." articles={[]} loading={true} />}>
+          <ArticlesContainer
+            endpoint="blogs"
+            params="sort=top"
+            title="Top Articles"
+            icon={Flame}
+          />
+        </Suspense>
       </section>
 
+      {/* Featured Articles */}
       <section className="w-full max-w-7xl">
-        <ArticleSection
-          articles={featuredBlogs}
-          loading={loading}
-          title={
-            <div className="flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-500" />
-              <h2 className="text-2xl sm:text-3xl font-bold">Featured Articles</h2>
-            </div>
-          }
-        />
+        <Suspense fallback={<ArticleSection title="Loading Featured Articles..." articles={[]} loading={true} />}>
+          <ArticlesContainer
+            endpoint="blogs"
+            params="sort=featured"
+            title="Featured Articles"
+            icon={Star}
+          />
+        </Suspense>
       </section>
-    </main>
+    </div>
   )
 }

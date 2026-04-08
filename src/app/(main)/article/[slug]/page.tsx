@@ -31,8 +31,35 @@ export default function ArticleDetail() {
   if (!loading && error) return notFound();
   if (!loading && !blogDetail) return <Skeleton className="w-full h-96" />;
 
+  const jsonLd = blogDetail ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blogDetail.title,
+    "image": blogDetail.featured_image || blogDetail.thumbnail,
+    "author": {
+      "@type": "Person",
+      "name": blogDetail.author?.name,
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Contenable",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://contennable.trianandafajar.com/globe.svg"
+      }
+    },
+    "datePublished": blogDetail.published_at,
+    "description": blogDetail.description,
+  } : null;
+
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -56,7 +83,7 @@ export default function ArticleDetail() {
       </Breadcrumb>
 
       {/* 🖼 Featured Image / Skeleton */}
-      <div className="relative w-full h-56 sm:h-72 md:h-96 mb-6 rounded-2xl overflow-hidden">
+      <div className="relative w-full h-56 sm:h-72 md:h-96 mb-6 rounded-2xl overflow-hidden shadow-md">
         {loading ? (
           <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
         ) : (
@@ -64,10 +91,11 @@ export default function ArticleDetail() {
             src={
               blogDetail?.featured_image ||
               blogDetail?.thumbnail ||
-              "/placeholder.jpg"
+              "/placeholder.png"
             }
             alt={blogDetail?.title || "Article image"}
             fill
+            sizes="(max-width: 1024px) 100vw, 896px"
             className="object-cover rounded-2xl"
             priority
           />
@@ -93,7 +121,7 @@ export default function ArticleDetail() {
               <Link
                 key={tag.id}
                 href={`/tags/${tag.slug}`}
-                className="bg-primary/10 text-primary border border-primary/20 text-xs sm:text-sm px-3 py-1 rounded-full hover:bg-primary/20 transition-colors"
+                className="bg-primary/5 text-primary border border-primary/20 text-xs sm:text-sm px-3 py-1 rounded-full hover:bg-primary/15 transition-all"
               >
                 #{tag.name}
               </Link>
@@ -104,25 +132,21 @@ export default function ArticleDetail() {
       {loading ? (
         <Skeleton className="w-1/2 h-5 mb-6" />
       ) : (
-        <div className="text-sm text-gray-500 mb-8">
-          By{" "}
-          <span className="font-semibold text-gray-700">
-            {blogDetail?.author?.name}
-          </span>{" "}
-          in{" "}
-          <span className="font-semibold text-gray-700">
-            {blogDetail?.category?.name}
-          </span>{" "}
-          • {blogDetail?.published_at}
+        <div className="text-sm text-gray-600 mb-8 border-b pb-6 flex items-center gap-4">
+          <div className="flex flex-col">
+            <span>By <span className="font-semibold text-gray-900">{blogDetail?.author?.name}</span></span>
+            <span className="text-xs text-gray-400">{blogDetail?.published_at} • {blogDetail?.category?.name}</span>
+          </div>
         </div>
       )}
 
       {/* 📜 Content */}
       <article
         className="
-          prose prose-neutral dark:prose-invert 
-          max-w-none 
+          prose prose-neutral max-w-none 
           text-sm sm:text-base leading-relaxed
+          prose-headings:text-gray-900 prose-a:text-primary
+          prose-img:rounded-xl
         "
       >
         {loading ? (

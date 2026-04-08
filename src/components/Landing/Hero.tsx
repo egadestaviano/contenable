@@ -7,11 +7,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Hero() {
+import { Tag } from "@/store/features/tags/tagSlice";
+
+export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   const [search, setSearch] = useState("");
   const router = useRouter();
 
-  const { tags, loading } = useAppSelector((state) => state.tags);
+  const { tags: reduxTags, loading: reduxLoading } = useAppSelector((state) => state.tags);
+  
+  const tags = initialTags || reduxTags;
+  const loading = !initialTags && reduxLoading;
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +34,7 @@ export default function Hero() {
       </h1>
 
       {/* Slogan */}
-      <p className="text-base sm:text-lg lg:text-2xl text-gray-600 mb-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl">
+      <p className="text-base sm:text-lg lg:text-2xl text-gray-600 mb-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl" style={{ contain: 'content' }}>
         Discover ideas, insights, and inspiration all in one connected space.
         Contenable brings you closer to the content that moves the world.
       </p>
@@ -37,10 +42,15 @@ export default function Hero() {
       {/* Search Bar */}
       <div className="relative w-full max-w-md sm:max-w-xl mb-6">
         <form onSubmit={handleSearch} className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
+          <label htmlFor="article-search" className="sr-only">
+            Search articles
+          </label>
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
           <Input
+            id="article-search"
             type="search"
-            placeholder="Search artikel..."
+            placeholder="Search articles..."
+            aria-label="Search articles"
             className="pl-12 pr-4 py-4 sm:py-6 text-base sm:text-lg rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
             value={search}
             onChange={(e) => setSearch(e.target.value)}

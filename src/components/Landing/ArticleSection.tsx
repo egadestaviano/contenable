@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardHeader,
@@ -15,15 +13,17 @@ export default function ArticleSection({
   title,
   articles,
   loading = false,
+  priorityCount = 0,
 }: {
   title: ReactNode;
   articles: Blog[];
   loading?: boolean;
+  priorityCount?: number;
 }) {
   const skeletonCount = 4;
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
       <div className="mb-6">{title}</div>
       <div
         className="
@@ -58,8 +58,8 @@ export default function ArticleSection({
                 </CardHeader>
               </Card>
             ))
-          : articles.slice(0, 8).map((article) => (
-            <ArticleCard key={article.id} article={article} />
+          : articles.slice(0, 8).map((article, idx) => (
+            <ArticleCard key={article.id} article={article} priority={idx < priorityCount} />
           ))}
       </div>
     </section>

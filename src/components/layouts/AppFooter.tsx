@@ -1,24 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import FooterSearch from "./FooterSearch";
 
 export default function Footer() {
-  const [search, setSearch] = useState("");
-  const router = useRouter();
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (search.trim()) {
-      router.push(`/search?query=${encodeURIComponent(search.trim())}`);
-      setSearch("");
-    }
-  };
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="w-full border-t bg-cyan-900 mt-12 text-gray-100">
@@ -27,32 +12,12 @@ export default function Footer() {
         <div className="flex flex-col md:justify-between w-full md:max-w-1/3 px-2 sm:px-10 md:px-0">
           <h2 className="text-xl font-semibold mb-2 text-white">CONTENABLE</h2>
           <p className="text-sm text-gray-300 leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-            consequuntur unde placeat ad doloremque harum sit numquam modi
-            maiores corporis?
+            Discover ideas, insights, and inspiration all in one connected space.
+            Contenable brings you closer to the content that moves the world.
           </p>
 
-          {/* Search Bar */}
-          <form
-            onSubmit={handleSearch}
-            className="relative flex items-center justify-center mx-auto md:mx-0 mt-6 max-w-80"
-          >
-            <Search className="absolute left-3 text-gray-400 w-4 h-4" />
-            <Input
-              type="search"
-              placeholder="Search articles..."
-              className="pl-9 pr-24 bg-white/10 text-gray-100 placeholder:text-gray-300 border border-gray-500"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Button
-              type="submit"
-              size="sm"
-              className="absolute right-1 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 text-white"
-            >
-              Search
-            </Button>
-          </form>
+          {/* Search Bar (Client Component) */}
+          <FooterSearch />
         </div>
 
         {/* Navigation Links */}
@@ -144,6 +109,7 @@ export default function Footer() {
       {/* Credits */}
       <div className="text-center py-6 text-sm text-gray-400">
         © {new Date().getFullYear()}{" "}
+        © {currentYear}{" "}
         <span className="font-medium text-gray-200">CONTENABLE</span>. All rights
         reserved. <br /> 
       </div>

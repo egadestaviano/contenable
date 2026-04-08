@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
@@ -14,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import AuthSection from "./AuthSection";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 
 export default function Header() {
@@ -61,13 +54,15 @@ export default function Header() {
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 border-b bg-white/80 backdrop-blur-sm shadow-sm">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2">
-        <Image
-          src="/globe.svg"
-          alt="Logo"
-          width={32}
-          height={32}
-          className="w-4 h-4 md:w-8 md:h-8"
-        />
+          <Image
+            src="/globe.svg"
+            alt="Logo"
+            width={32}
+            height={32}
+            className="w-4 h-4 md:w-8 md:h-8"
+            priority
+            fetchPriority="high"
+          />
         <span className="md:text-xl font-semibold">CONTENABLE</span>
       </Link>
 
@@ -148,36 +143,8 @@ export default function Header() {
           )}
         </div>
 
-        {/* Auth Buttons - Desktop */}
-        <SignedOut>
-          <div className="hidden sm:flex items-center gap-2">
-            <SignInButton mode="redirect">
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-            </SignInButton>
-            <SignUpButton mode="redirect">
-              <Button size="sm" className="bg-primary text-white">
-                Sign Up
-              </Button>
-            </SignUpButton>
-          </div>
-        </SignedOut>
-
-        <SignedIn>
-          <div className="sm:hidden">
-            <UserButton
-              userProfileMode="modal"
-            />
-          </div>
-
-          <div className="hidden sm:block">
-            <UserButton
-              userProfileMode="modal"
-              appearance={{ elements: { avatarBox: "w-8 h-8" } }}
-            />
-          </div>
-        </SignedIn>
+        {/* Auth Buttons Lazy Loaded */}
+        <AuthSection />
 
         {/* Mobile Menu */}
         <Sheet open={isSheetOpen}>
@@ -203,14 +170,14 @@ export default function Header() {
                   </SheetTitle>
                 </div>
                 <SheetClose asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" onClick={handleSheetOpen}>
                     <X className="w-6 h-6" />
                   </Button>
                 </SheetClose>
               </div>
             </SheetHeader>
 
-            <SheetDescription className="flex flex-col gap-4 text-lg px-4 mt-4">
+            <div className="flex flex-col gap-4 text-lg px-4 mt-4">
               {navLinks.map((link) => {
                 const isActive =
                   pathname === link.href ||
@@ -225,27 +192,19 @@ export default function Header() {
                         ? "bg-primary/10 text-primary font-semibold"
                         : "hover:bg-gray-100 text-gray-700"
                     }`}
+                    onClick={() => setIsSheetOpen(false)}
                   >
                     {link.label}
                   </Link>
                 );
               })}
 
-              <SignedOut>
-                <div className="flex flex-col gap-3 mt-6">
-                  <SignInButton mode="redirect">
-                    <Button variant="outline" className="w-full">
-                      Sign In
-                    </Button>
-                  </SignInButton>
-                  <SignUpButton mode="redirect">
-                    <Button className="w-full bg-primary text-white">
-                      Sign Up
-                    </Button>
-                  </SignUpButton>
-                </div>
-              </SignedOut>
-            </SheetDescription>
+              <div className="mt-6">
+                 {/* Mobile Auth is also in AuthSection now if refactored correctly, 
+                     but for simplicity I will let AuthSection handle it or use a separate one. */}
+                 {/* Actually, AuthSection handles mobile UserButton too. */}
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
