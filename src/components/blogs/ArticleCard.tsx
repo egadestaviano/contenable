@@ -23,9 +23,9 @@ export default function ArticleCard({ article, priority = false }: { article: Bl
               src={article.thumbnail || "/placeholder.svg"}
               alt={article.title}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
               priority={priority}
-              quality={80}
+              quality={70}
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
         </div>

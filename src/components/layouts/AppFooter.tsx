@@ -109,7 +109,6 @@ export default function Footer() {
       {/* Credits */}
       <div className="text-center py-6 text-sm text-gray-400">
         © {new Date().getFullYear()}{" "}
-        © {currentYear}{" "}
         <span className="font-medium text-gray-200">CONTENABLE</span>. All rights
         reserved. <br /> 
       </div>
