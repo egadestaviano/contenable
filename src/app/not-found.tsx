@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function NotFoundPage() {
   return (
-    <main className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6">
       <div className="flex flex-col items-center gap-6">
         {/* Icon / Logo */}
         <div className="relative">
@@ -50,6 +50,6 @@ export default function NotFoundPage() {
 
       {/* Background gradient accent */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none" />
-    </main>
+    </div>
   );
 }

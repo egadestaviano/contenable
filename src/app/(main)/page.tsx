@@ -24,7 +24,6 @@ async function ArticlesContainer({
   endpoint, 
   params, 
   title, 
-  icon: Icon, 
   priorityCount = 0 
 }: { 
   endpoint: string; 
@@ -38,15 +37,11 @@ async function ArticlesContainer({
     <ArticleSection
       articles={articles}
       priorityCount={priorityCount}
-      title={
-        <div className="flex items-center gap-2">
-          <Icon className={`w-6 h-6 ${endpoint === 'blogs' && params?.includes('top') ? 'text-red-500' : endpoint === 'blogs' && params?.includes('featured') ? 'text-yellow-500' : 'text-primary'}`} aria-hidden="true" />
-          <h2 className="text-2xl sm:text-3xl font-bold">{title}</h2>
-        </div>
-      }
+      title={title}
     />
   );
 }
+
 
 // Tags fetcher for Hero
 async function HeroWithData() {
@@ -56,29 +51,21 @@ async function HeroWithData() {
 
 export default function Home() {
   return (
-    <div
-      className="
-        font-sans flex flex-col items-center 
-        w-full
-        px-4 sm:px-8 lg:px-16 xl:px-24 
-        pb-16 
-        gap-y-10 sm:gap-14 lg:gap-20
-      "
-    >
-      {/* Hero Section - Streaming tags */}
-      <section className="w-full max-w-7xl">
+    <div className="flex flex-col items-center w-full pb-20">
+      {/* Hero Section */}
+      <section className="w-full">
         <Suspense fallback={<Hero />}>
           <HeroWithData />
         </Suspense>
       </section>
 
       {/* New Articles */}
-      <section className="w-full max-w-7xl">
-        <Suspense fallback={<ArticleSection title="Loading New Articles..." articles={[]} loading={true} />}>
+      <section className="w-full">
+        <Suspense fallback={<ArticleSection title="Latest" articles={[]} loading={true} />}>
           <ArticlesContainer
             endpoint="blogs"
             params="sort=newest"
-            title="New Articles"
+            title="Latest Stories"
             icon={Sparkles}
             priorityCount={4}
           />
@@ -86,24 +73,24 @@ export default function Home() {
       </section>
 
       {/* Top Articles */}
-      <section className="w-full max-w-7xl">
-        <Suspense fallback={<ArticleSection title="Loading Top Articles..." articles={[]} loading={true} />}>
+      <section className="w-full">
+        <Suspense fallback={<ArticleSection title="Trending" articles={[]} loading={true} />}>
           <ArticlesContainer
             endpoint="blogs"
             params="sort=top"
-            title="Top Articles"
+            title="Trending Now"
             icon={Flame}
           />
         </Suspense>
       </section>
 
       {/* Featured Articles */}
-      <section className="w-full max-w-7xl">
-        <Suspense fallback={<ArticleSection title="Loading Featured Articles..." articles={[]} loading={true} />}>
+      <section className="w-full">
+        <Suspense fallback={<ArticleSection title="Featured" articles={[]} loading={true} />}>
           <ArticlesContainer
             endpoint="blogs"
             params="sort=featured"
-            title="Featured Articles"
+            title="Editor's Choice"
             icon={Star}
           />
         </Suspense>
@@ -111,3 +98,4 @@ export default function Home() {
     </div>
   )
 }
+

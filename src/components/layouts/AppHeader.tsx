@@ -7,15 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import AuthSection from "./AuthSection";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+import dynamic from "next/dynamic";
+
+const AuthSection = dynamic(() => import("./AuthSection"), { ssr: false });
+const Sheet = dynamic(() => import("@/components/ui/sheet").then(mod => mod.Sheet), { ssr: false });
+const SheetContent = dynamic(() => import("@/components/ui/sheet").then(mod => mod.SheetContent), { ssr: false });
+const SheetTrigger = dynamic(() => import("@/components/ui/sheet").then(mod => mod.SheetTrigger), { ssr: false });
 
 export default function Header() {
   const [search, setSearch] = useState("");
@@ -51,163 +48,185 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 border-b bg-white/80 backdrop-blur-sm shadow-sm">
-      {/* Logo */}
-      <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/globe.svg"
-            alt="Logo"
-            width={32}
-            height={32}
-            className="w-4 h-4 md:w-8 md:h-8"
-            priority
-            fetchPriority="high"
-          />
-        <span className="md:text-xl font-semibold">CONTENABLE</span>
-      </Link>
-
-      {/* Desktop Navigation */}
-      <nav className="hidden md:flex xl:gap-4 md:ml-52 relative">
-        {navLinks.map((link) => {
-          const isActive =
-            pathname === link.href ||
-            (link.href !== "/" && pathname.startsWith(link.href));
-
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative px-2 xl:px-3 py-2 font-medium transition-colors duration-300 
-                ${
-                  isActive
-                    ? "text-primary font-semibold"
-                    : "text-gray-700 hover:text-primary"
-                }`}
-            >
-              {link.label}
-              <span
-                className={`absolute left-0 bottom-0 h-[2px] bg-primary rounded-full transition-all duration-300 ease-in-out origin-left
-                ${isActive ? "w-full scale-x-100" : "w-0 scale-x-0"}`}
-              />
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Actions */}
-      <div className="flex items-center gap-2">
-        {/* Desktop Search */}
-        <div className="hidden sm:block">
-          <form onSubmit={handleSearch} className="relative">
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="pl-9 w-48"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+    <header className="sticky top-0 z-50 w-full glass border-b border-border/40 transition-all duration-300">
+      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="p-2 transition-transform duration-300 group-hover:rotate-12">
+            <Image
+              src="/globe.svg"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="w-7 h-7"
+              priority
+              fetchPriority="high"
             />
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          </form>
-        </div>
+          </div>
+          <span className="text-xl font-bold tracking-tight sm:block hidden">Contenable</span>
+        </Link>
 
-        {/* Mobile Search */}
-        <div className="sm:hidden relative">
-          {mobileSearchOpen ? (
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => {
+            const isActive =
+              pathname === link.href ||
+              (link.href !== "/" && pathname.startsWith(link.href));
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative py-1 text-sm font-semibold transition-colors duration-200
+                  ${
+                    isActive
+                      ? "text-primary border-b-2 border-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          {/* Desktop Search */}
+          <div className="hidden lg:block relative group">
             <form onSubmit={handleSearch} className="relative">
+              <label htmlFor="header-search-desktop" className="sr-only">
+                Search articles
+              </label>
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+                <Search className="w-4 h-4" aria-hidden="true" />
+              </div>
               <Input
-                autoFocus
+                id="header-search-desktop"
                 type="search"
-                placeholder="Search..."
-                className="pl-9 w-36 sm:w-48"
+                placeholder="Quick search..."
+                className="pl-10 w-48 bg-muted/50 border-transparent focus:bg-white dark:focus:bg-black/40 focus:w-64 transition-all duration-300 rounded-full"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search articles"
               />
+            </form>
+          </div>
+
+          <AuthSection />
+
+          {/* Mobile Menu & Search */}
+          <div className="flex items-center md:hidden">
+            {mobileSearchOpen ? (
+              <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-md p-6 flex flex-col gap-8 animate-in fade-in zoom-in duration-200">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold tracking-tight">Search</span>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setMobileSearchOpen(false)} 
+                    className="rounded-full"
+                    aria-label="Close search"
+                  >
+                    <X className="w-6 h-6" aria-hidden="true" />
+                  </Button>
+                </div>
+                <form onSubmit={handleSearch} className="relative group">
+                  <label htmlFor="header-search-mobile" className="sr-only">
+                    Search articles
+                  </label>
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" aria-hidden="true" />
+                  <Input
+                    id="header-search-mobile"
+                    autoFocus
+                    type="search"
+                    placeholder="Search articles..."
+                    className="w-full pl-12 pr-4 py-8 text-lg rounded-2xl border-none bg-muted/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    aria-label="Search articles"
+                  />
+                  <button type="submit" className="mt-4 w-full py-4 bg-primary text-primary-foreground rounded-2xl font-bold">
+                    Search
+                  </button>
+                </form>
+              </div>
+            ) : (
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute hover:bg-transparent hover:scale-105 right-1 top-1/2 -translate-y-1/2"
-                onClick={() => setMobileSearchOpen(false)}
+                onClick={() => setMobileSearchOpen(true)}
+                aria-label="Open search"
               >
-                <X className="w-4 h-4" />
+                <Search className="w-5 h-5" aria-hidden="true" />
               </Button>
-              <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            </form>
-          ) : (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileSearchOpen(true)}
-            >
-              <Search className="w-6 h-6" />
-            </Button>
-          )}
-        </div>
+            )}
 
-        {/* Auth Buttons Lazy Loaded */}
-        <AuthSection />
+            <Sheet open={isSheetOpen}>
 
-        {/* Mobile Menu */}
-        <Sheet open={isSheetOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={handleSheetOpen}>
-              <Menu className="w-6 h-6" />
-            </Button>
-          </SheetTrigger>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={handleSheetOpen} aria-label="Open menu">
+                  <Menu className="w-5 h-5" aria-hidden="true" />
+                </Button>
+              </SheetTrigger>
 
-          <SheetContent side="left" className="max-w-[300px]">
-            <SheetHeader className="flex justify-between">
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-2">
-                  <Image
-                    src="/globe.svg"
-                    alt="Logo"
-                    width={24}
-                    height={24}
-                    className="w-6 h-6"
-                  />
-                  <SheetTitle className="text-xl font-semibold">
-                    CONTENABLE
-                  </SheetTitle>
+              <SheetContent side="right" className="w-[300px] p-0 border-l border-border/40 glass">
+                <div className="p-6 flex flex-col h-full">
+                  <div className="flex items-center justify-between mb-10">
+                    <span className="text-xl font-bold tracking-tight">Contenable</span>
+                    <Button variant="ghost" size="icon" onClick={handleSheetOpen} aria-label="Close menu">
+                      <X className="w-5 h-5" aria-hidden="true" />
+                    </Button>
+                  </div>
+
+                  <nav className="flex flex-col gap-2">
+                    {navLinks.map((link) => {
+                      const isActive =
+                        pathname === link.href ||
+                        (link.href !== "/" && pathname.startsWith(link.href));
+
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={`flex items-center px-4 py-3 rounded-xl text-lg font-medium transition-all ${
+                            isActive
+                              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                              : "text-muted-foreground hover:bg-muted"
+                          }`}
+                          onClick={() => setIsSheetOpen(false)}
+                        >
+                          {link.label}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+
+                  <div className="mt-auto py-6 border-t border-border/40">
+                    <form onSubmit={handleSearch} className="relative">
+                      <label htmlFor="header-search-sheet" className="sr-only">
+                        Search articles
+                      </label>
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+                      <Input
+                        id="header-search-sheet"
+                        type="search"
+                        placeholder="Search articles..."
+                        className="pl-10 rounded-xl"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        aria-label="Search articles"
+                      />
+                    </form>
+                  </div>
                 </div>
-                <SheetClose asChild>
-                  <Button variant="ghost" size="icon" onClick={handleSheetOpen}>
-                    <X className="w-6 h-6" />
-                  </Button>
-                </SheetClose>
-              </div>
-            </SheetHeader>
-
-            <div className="flex flex-col gap-4 text-lg px-4 mt-4">
-              {navLinks.map((link) => {
-                const isActive =
-                  pathname === link.href ||
-                  (link.href !== "/" && pathname.startsWith(link.href));
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`px-3 py-3 rounded font-medium transition-all duration-300 ${
-                      isActive
-                        ? "bg-primary/10 text-primary font-semibold"
-                        : "hover:bg-gray-100 text-gray-700"
-                    }`}
-                    onClick={() => setIsSheetOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-
-              <div className="mt-6">
-                 {/* Mobile Auth is also in AuthSection now if refactored correctly, 
-                     but for simplicity I will let AuthSection handle it or use a separate one. */}
-                 {/* Actually, AuthSection handles mobile UserButton too. */}
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
       </div>
     </header>
+
   );
 }
+

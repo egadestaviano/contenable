@@ -5,7 +5,6 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import type { Blog } from "@/store/features/blogs/blog";
 
@@ -17,57 +16,59 @@ export default function ArticleCard({ article, priority = false }: { article: Bl
 
   return (
     <div className="relative group h-full">
-      <Card className="h-full overflow-hidden flex flex-col transition-all hover:shadow-lg hover:-translate-y-1 duration-300 pt-0">
-        <div className="relative w-full aspect-[4/3]">
+      <Card className="h-full overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-none bg-white dark:bg-black/20 pt-0 rounded-2xl">
+        <div className="relative w-full aspect-[16/10] overflow-hidden">
             <Image
               src={article.thumbnail || "/placeholder.svg"}
               alt={article.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
               priority={priority}
-              quality={70}
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              quality={85}
+              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
+            {/* Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
 
-        <CardHeader className="flex-grow space-y-2">
-          <div className="flex flex-wrap gap-2 mb-1 z-10 relative">
+        <CardHeader className="flex-grow space-y-4 p-6">
+          <div className="flex flex-wrap gap-2 items-center">
             {visibleTags.map((tag, i) => (
               <Link
                 key={i}
                 href={`/tags/${tag.slug}`}
                 className="z-20"
               >
-                <Badge
-                  variant="secondary"
-                  className="cursor-pointer text-xs bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                >
-                  #{tag.name}
-                </Badge>
+                <span className="text-xs font-semibold text-primary/80 bg-primary/5 px-2.5 py-0.5 rounded-full ring-1 ring-primary/10">
+                  {tag.name}
+                </span>
               </Link>
             ))}
 
             {extraTagCount > 0 && (
-              <Badge
-                variant="outline"
-                className="text-xs border-dashed text-muted-foreground"
-              >
-                +{extraTagCount}
-              </Badge>
+              <span className="text-xs text-muted-foreground">
+                +{extraTagCount} more
+              </span>
             )}
           </div>
 
-          <CardTitle className="line-clamp-2 text-base sm:text-lg">
-            <Link href={`/article/${article.slug}`} className="hover:underline focus:outline-none">
+          <CardTitle className="line-clamp-2 text-lg font-bold leading-snug group-hover:text-primary transition-colors">
+            <Link href={`/article/${article.slug}`} className="focus:outline-none">
               <span className="absolute inset-0" aria-hidden="true" />
               {article.title}
             </Link>
           </CardTitle>
-          <CardDescription className="line-clamp-2 text-sm sm:text-base text-gray-500">
+          
+          <CardDescription className="line-clamp-2 text-sm text-muted-foreground leading-relaxed">
             {article.description}
           </CardDescription>
+
+          <div className="pt-2 mt-auto flex items-center text-xs font-semibold text-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+            Read Article <span className="ml-1">→</span>
+          </div>
         </CardHeader>
       </Card>
     </div>
   );
 }
+

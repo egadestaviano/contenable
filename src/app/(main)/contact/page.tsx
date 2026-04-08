@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: "Get in touch with the Contenable team for any inquiries or feedback.",
+};
+
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -6,6 +13,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+
 
 export default function ContactPage() {
   return (

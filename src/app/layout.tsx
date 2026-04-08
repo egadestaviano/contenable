@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { headers } from "next/headers";
+import type { Viewport } from "next";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 
 // Font setup
 const geistSans = Geist({
@@ -17,6 +22,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: 'swap',
+});
+
+const dmSerif = DM_Serif_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400"],
   display: 'swap',
 });
 
@@ -79,27 +91,43 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         variables: {
-          colorPrimary: "#000000",
+          colorPrimary: "oklch(0.25 0.03 240)",
+          colorBackground: "oklch(0.99 0.005 240)",
+          colorText: "oklch(0.2 0.02 240)",
         },
+        elements: {
+          card: "shadow-none border border-border/40 rounded-2xl",
+          formButtonPrimary: "bg-primary hover:opacity-90 transition-opacity",
+          footerActionLink: "text-primary hover:text-primary/80",
+        }
       }}
     >
       <html suppressHydrationWarning lang="en">
         <head>
           <link rel="preconnect" href="https://api-contenna.trianandafajar.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://api-contenna.trianandafajar.com" />
+          <link rel="preconnect" href="https://api-contenable.egadestaviano.my.id" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://api-contenable.egadestaviano.my.id" />
           <link rel="preconnect" href="http://127.0.0.1:8000" crossOrigin="anonymous" />
+
           <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" fetchPriority="high" />
         </head>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
+          className={`${geistSans.variable} ${geistMono.variable} ${dmSerif.variable} antialiased bg-gray-50 text-gray-900`}
         >
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:p-4 focus:text-primary focus:shadow-lg focus:rounded-b-xl focus:border focus:border-primary/20"
+          >
+            Skip to content
+          </a>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
-          <div className="flex min-h-screen w-full">
+          <main id="main-content" className="flex min-h-screen w-full flex-col">
             {children}
-          </div>
+          </main>
         </body>
       </html>
     </ClerkProvider>

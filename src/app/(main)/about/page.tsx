@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn more about Contenable and our mission to curate insightful content.",
+};
+
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -6,6 +13,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+
 
 export default function AboutPage() {
   return (

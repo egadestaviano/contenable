@@ -1,92 +1,39 @@
-"use client";
+import { Suspense } from "react";
+import TagContent from "./TagContent";
+import { Metadata } from "next";
 
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchTagDetail, clearTagDetail } from "@/store/features/tags/tagSlice";
-
-import ArticleCard from "@/components/blogs/ArticleCard";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = (await params).slug;
+  const capitalizedSlug = slug.charAt(0).toUpperCase() + slug.slice(1);
+  
+  return {
+    title: `Articles tagged with ${capitalizedSlug}`,
+    description: `Browse all articles and stories tagged with ${slug} on Contenable.`,
+    openGraph: {
+      title: `${capitalizedSlug} Articles | Contenable`,
+      description: `Explore the best content tagged with ${slug} on Contenable.`,
+    }
+  };
+}
 
 export default function TagPage() {
-  const { slug } = useParams();
-  const dispatch = useAppDispatch();
-  const { tagDetail, loading, error } = useAppSelector((state) => state.tags);
-
-  useEffect(() => {
-    if (!slug) return;
-
-    dispatch(fetchTagDetail(slug as string));
-
-    return () => {
-      dispatch(clearTagDetail());
-    };
-  }, [slug, dispatch]);
-
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Breadcrumb */}
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/tags">Tags</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="capitalize">
-              {slug}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      <h1 className="text-3xl font-bold mb-4">
-        Tag:{" "}
-        <span className="capitalize text-primary">{tagDetail?.name || slug}</span>
-      </h1>
-
-      {error && (
-        <p className="text-red-500 text-sm mb-4">Failed to load tag data.</p>
-      )}
-
-      {loading && (
+    <Suspense fallback={
+      <div className="w-full max-w-7xl mx-auto px-4 py-10 animate-pulse">
+        <div className="h-4 w-40 bg-muted rounded mb-6" />
+        <div className="h-10 w-64 bg-muted rounded mb-10" />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="animate-pulse bg-gray-200 rounded-md h-[280px]"
-            />
+            <div key={i} className="bg-muted rounded-2xl h-[280px]" />
           ))}
         </div>
-      )}
-
-      {/* Blogs List */}
-      {!loading && tagDetail && tagDetail.blogs.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {tagDetail.blogs.map((item) => (
-            <ArticleCard key={item.id} article={item} />
-          ))}
-        </div>
-      )}
-
-      {/* No Article */}
-      {!loading && tagDetail?.blogs?.length === 0 && (
-        <p className="text-center text-gray-500 mt-6">
-          No articles found for this tag.
-        </p>
-      )}
-    </div>
+      </div>
+    }>
+      <TagContent />
+    </Suspense>
   );
 }

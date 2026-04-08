@@ -1,11 +1,22 @@
-import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Authentication",
+  description: "Sign in or create an account to join the Contenable community.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-4 flex justify-center">
+    <main className="fixed inset-0 flex items-center justify-center bg-background p-4 overflow-y-auto">
+      <div className="w-full flex justify-center items-center py-8">
         {children}
       </div>
-    </div>
+    </main>
   );
 }
+

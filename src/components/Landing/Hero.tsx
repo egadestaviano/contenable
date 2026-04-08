@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/store/hooks";
-import { Search } from "lucide-react";
+import { Search, X, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +13,8 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   const [search, setSearch] = useState("");
   const router = useRouter();
 
-  const { tags: reduxTags, loading: reduxLoading } = useAppSelector((state) => state.tags);
+  const reduxTags = useAppSelector((state) => initialTags ? [] : state.tags.tags);
+  const reduxLoading = useAppSelector((state) => initialTags ? false : state.tags.loading);
   
   const tags = initialTags || reduxTags;
   const loading = !initialTags && reduxLoading;
@@ -27,56 +28,90 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center text-center py-16 px-4 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,var(--color-primary)_0%,transparent_60%)] opacity-[0.08]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom,var(--color-primary)_0%,transparent_60%)] opacity-[0.05]" />
+      <div className="absolute inset-0 -z-10 bg-[grid-black/[0.03] dark:bg-grid-white/[0.03]]" />
+
       {/* Title */}
-      <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4">
-        CONTENABLE
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold tracking-widest uppercase mb-8">
+        <Sparkles className="w-3 h-3" aria-hidden="true" />
+        Featured Articles
+      </div>
+
+      <h1 className="text-6xl sm:text-8xl lg:text-9xl font-normal font-serif mb-6 tracking-tight text-balance leading-[0.85]">
+        Contenable<span className="text-primary">.</span>
       </h1>
 
+
       {/* Slogan */}
-      <p className="text-base sm:text-lg lg:text-2xl text-gray-600 mb-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl" style={{ contain: 'content' }}>
-        Discover ideas, insights, and inspiration all in one connected space.
-        Contenable brings you closer to the content that moves the world.
+      <p className="text-lg sm:text-xl text-muted-foreground mb-12 max-w-2xl text-balance leading-relaxed">
+        Contenable is a simple platform to find and read articles from various authors. 
+        No noise, just perspectives that matter to you.
       </p>
 
+
       {/* Search Bar */}
-      <div className="relative w-full max-w-md sm:max-w-xl mb-6">
+      <div className="relative w-full max-w-2xl mb-10 group">
         <form onSubmit={handleSearch} className="relative">
           <label htmlFor="article-search" className="sr-only">
             Search articles
           </label>
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+          <div className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+            <Search className="w-5 h-5" aria-hidden="true" />
+          </div>
           <Input
             id="article-search"
             type="search"
-            placeholder="Search articles..."
+            placeholder="What are you looking for today?"
             aria-label="Search articles"
-            className="pl-12 pr-4 py-4 sm:py-6 text-base sm:text-lg rounded-lg shadow-md border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
+            className="w-full pl-14 pr-16 sm:pr-32 py-8 text-lg rounded-2xl border-none bg-white dark:bg-black/20 subtle-shadow ring-1 ring-border focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="absolute right-16 sm:right-32 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-primary transition-colors"
+              aria-label="Clear search"
+            >
+              <X className="w-5 h-5" aria-hidden="true" />
+            </button>
+          )}
+          <button 
+            type="submit"
+            className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium text-sm hover:opacity-90 transition-opacity hidden sm:block"
+          >
+            Search
+          </button>
+
+
         </form>
       </div>
 
       {/* Tags */}
-      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2">
+      <div className="flex flex-wrap justify-center items-center gap-3">
+        <span className="text-sm font-medium text-muted-foreground mr-2">Popular:</span>
         {loading
-          ? Array.from({ length: 8 }).map((_, i) => (
+          ? Array.from({ length: 4 }).map((_, i) => (
               <span
                 key={i}
-                className="px-10 py-3 rounded-full bg-gray-200 animate-pulse"
+                className="w-20 h-8 rounded-full bg-muted animate-pulse"
               />
             ))
-          : tags.slice(0, 6).map((tag) => (
+          : tags.slice(0, 5).map((tag) => (
               <Link
                 key={tag.slug}
                 href={`/tags/${tag.slug}`}
-                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-sm sm:text-base font-medium transition-colors"
+                className="px-4 py-2 bg-white dark:bg-black/10 border border-border hover:border-primary hover:text-primary rounded-full text-sm font-medium transition-all"
               >
-                #{tag.name}
+                {tag.name}
               </Link>
             ))}
       </div>
     </section>
   );
 }
+
