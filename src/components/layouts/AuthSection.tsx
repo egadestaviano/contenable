@@ -13,7 +13,7 @@ export default function AuthSection() {
   return (
     <>
       <SignedOut>
-        <div className="hidden sm:flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-2">
           <SignInButton mode="redirect">
             <Button variant="outline" size="sm">
               Sign In
