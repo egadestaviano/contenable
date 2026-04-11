@@ -32,9 +32,8 @@ const dmSerif = DM_Serif_Display({
   display: 'swap',
 });
 
-// Metadata (SEO)
 export const metadata: Metadata = {
-  metadataBase: new URL("https://contennable.trianandafajar.com"),
+  metadataBase: new URL("https://contenable.egadestaviano.my.id"),
   title: {
     default: "Contenable | Smart Article Search Platform",
     template: "%s | Contenable",
@@ -46,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://contennable.trianandafajar.com",
+    url: "https://contenable.egadestaviano.my.id",
     siteName: "Contenable",
     title: "Contenable - Smart Article Search Platform",
     description: "Discover ideas, insights, and inspiration all in one connected space.",
@@ -79,8 +78,8 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Contenable",
-    "url": "https://contennable.trianandafajar.com",
-    "logo": "https://contennable.trianandafajar.com/globe.svg",
+    "url": "https://contenable.egadestaviano.my.id",
+    "logo": "https://contenable.egadestaviano.my.id/globe.svg",
     "sameAs": [
       "https://twitter.com/contennable",
       "https://facebook.com/contennable"
@@ -104,11 +103,10 @@ export default function RootLayout({
     >
       <html suppressHydrationWarning lang="en">
         <head>
-          <link rel="preconnect" href="https://api-contenna.trianandafajar.com" crossOrigin="anonymous" />
-          <link rel="dns-prefetch" href="https://api-contenna.trianandafajar.com" />
           <link rel="preconnect" href="https://api-contenable.egadestaviano.my.id" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://api-contenable.egadestaviano.my.id" />
-          <link rel="preconnect" href="http://127.0.0.1:8000" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://api-contenable.egadestaviano.my.id" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://api-contenable.egadestaviano.my.id" />
 
           <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" fetchPriority="high" />
         </head>

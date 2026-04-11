@@ -44,8 +44,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-
       <div className="max-w-7xl mx-auto px-6 py-8 border-t border-border/40 flex flex-col items-center gap-4 text-xs font-medium text-muted-foreground tracking-wide">
         <div className="text-center">
           © {currentYear} Contenable. All rights reserved.
