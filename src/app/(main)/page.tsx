@@ -6,11 +6,20 @@ import { Suspense } from 'react'
 // Basic Server-side fetcher
 async function getData(endpoint: string, params: string = "") {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}${params ? `?${params}` : ""}`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api-contenable.egadestaviano.my.id/api/";
+    const url = `${baseUrl}${endpoint}${params ? `?${params}` : ""}`;
+    
+    console.log(`Fetching from: ${url}`);
+
     const res = await fetch(url, {
       next: { revalidate: 60 } // Cache for 1 minute
     });
-    if (!res.ok) return [];
+    
+    if (!res.ok) {
+      console.error(`Fetch failed for ${endpoint}: ${res.status} ${res.statusText}`);
+      return [];
+    }
+    
     const json = await res.json();
     return json.data || [];
   } catch (err) {
@@ -24,6 +33,7 @@ async function ArticlesContainer({
   endpoint, 
   params, 
   title, 
+  icon: Icon,
   priorityCount = 0 
 }: { 
   endpoint: string; 
@@ -37,7 +47,14 @@ async function ArticlesContainer({
     <ArticleSection
       articles={articles}
       priorityCount={priorityCount}
-      title={title}
+      endpoint={endpoint}
+      params={params}
+      title={
+        <div className="flex items-center gap-3">
+          <Icon className="w-8 h-8 text-primary" />
+          <span>{title}</span>
+        </div>
+      }
     />
   );
 }

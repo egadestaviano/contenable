@@ -1,26 +1,66 @@
+"use client";
+
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import type { Blog } from "@/store/features/blogs/blog";
 import { Skeleton } from "@/components/ui/skeleton";
 import ArticleCard from "../blogs/ArticleCard";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchNewBlogs, fetchTopBlogs, fetchFeaturedBlogs } from "@/store/features/blogs/blogSlice";
 
 export default function ArticleSection({
   title,
   articles,
-  loading = false,
+  loading: initialLoading = false,
   priorityCount = 0,
+  endpoint,
+  params,
 }: {
   title: ReactNode;
   articles: Blog[];
   loading?: boolean;
   priorityCount?: number;
+  endpoint?: string;
+  params?: string;
 }) {
+  const dispatch = useAppDispatch();
+  const [internalArticles, setInternalArticles] = useState<Blog[]>(articles);
+  const [internalLoading, setInternalLoading] = useState(false);
+
+  // Fallback to Redux if server-side articles are empty
+  const hasArticles = articles && articles.length > 0;
+  const currentArticles = internalArticles.length > 0 ? internalArticles : articles;
+  
+  const { newBlogs, topBlogs, featuredBlogs, loading: reduxLoading } = useAppSelector(state => state.blogs);
+
+  useEffect(() => {
+    setInternalArticles(articles);
+  }, [articles]);
+
+  useEffect(() => {
+    if (!hasArticles && endpoint === 'blogs') {
+      if (params?.includes('sort=newest')) {
+        if (newBlogs.length === 0) dispatch(fetchNewBlogs());
+        setInternalArticles(newBlogs);
+      } else if (params?.includes('sort=top')) {
+        if (topBlogs.length === 0) dispatch(fetchTopBlogs());
+        setInternalArticles(topBlogs);
+      } else if (params?.includes('sort=featured')) {
+        if (featuredBlogs.length === 0) dispatch(fetchFeaturedBlogs());
+        setInternalArticles(featuredBlogs);
+      }
+    }
+  }, [hasArticles, endpoint, params, dispatch, newBlogs, topBlogs, featuredBlogs]);
+
+  const isLoading = initialLoading || internalLoading || (!hasArticles && reduxLoading);
+  const displayArticles = internalArticles.length > 0 ? internalArticles : articles;
+
   const skeletonCount = 4;
 
   return (
@@ -44,7 +84,7 @@ export default function ArticleSection({
           gap-8 sm:gap-10
         "
       >
-        {loading
+        {isLoading
           ? Array.from({ length: skeletonCount }).map((_, idx) => (
               <Card
                 key={idx}
@@ -66,9 +106,15 @@ export default function ArticleSection({
                 </CardHeader>
               </Card>
             ))
-          : articles.slice(0, 8).map((article, idx) => (
+          : displayArticles.slice(0, 8).map((article, idx) => (
             <ArticleCard key={article.id} article={article} priority={idx < priorityCount} />
           ))}
+
+        {!isLoading && displayArticles.length === 0 && (
+          <div className="col-span-full py-20 text-center text-muted-foreground">
+            No articles found for this section.
+          </div>
+        )}
       </div>
     </section>
   );

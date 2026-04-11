@@ -1,23 +1,32 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Search, X, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Tag } from "@/store/features/tags/tagSlice";
+import { fetchTags, Tag } from "@/store/features/tags/tagSlice";
 
 export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   const [search, setSearch] = useState("");
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const reduxTags = useAppSelector((state) => initialTags ? [] : state.tags.tags);
-  const reduxLoading = useAppSelector((state) => initialTags ? false : state.tags.loading);
+  const reduxTags = useAppSelector((state) => state.tags.tags);
+  const reduxLoading = useAppSelector((state) => state.tags.loading);
   
-  const tags = initialTags || reduxTags;
-  const loading = !initialTags && reduxLoading;
+  const hasInitialTags = initialTags && initialTags.length > 0;
+  const tags = hasInitialTags ? initialTags : reduxTags;
+  const loading = !hasInitialTags && reduxLoading;
+
+  useEffect(() => {
+    if (!hasInitialTags && reduxTags.length === 0) {
+      dispatch(fetchTags());
+    }
+  }, [hasInitialTags, reduxTags.length, dispatch]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
