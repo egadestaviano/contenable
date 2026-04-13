@@ -12,7 +12,7 @@ export default function MainLayout({
     <div className="flex flex-col min-h-screen w-full">
       <Header />
 
-      <div className="container mx-auto flex-1 py-6">
+      <div className="container mx-auto flex-1 ">
         <ReduxProvider>
           {children}
         </ReduxProvider>
