@@ -96,7 +96,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
               <Link
                 key={tag.slug}
                 href={`/tags/${tag.slug}`}
-                className="px-3 py-1 text-xs border border-custom-light dark:border-neutral-700 hover:border-custom-primary hover:bg-custom-primary hover:text-white dark:hover:bg-custom-primary dark:hover:text-white transition-colors"
+                className="px-3 py-1 text-xs border border-custom-light dark:border-neutral-700 hover:border-custom-primary hover:bg-custom-primary/10 hover:text-custom-primary dark:hover:bg-custom-primary/20 dark:hover:text-custom-primary-dark-secondary transition-colors"
               >
                 {tag.name}
               </Link>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchSerachBlogs } from "@/store/features/blogs/blogSlice";
@@ -45,45 +44,44 @@ export default function SearchContent() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      <div className="flex flex-col items-center mb-16 gap-6">
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-center">
+      <div className="flex flex-col items-center mb-16 gap-4">
+        <h1 className="text-4xl sm:text-6xl font-serif font-normal text-custom-primary dark:text-custom-primary-dark tracking-tight leading-tight">
           Search Articles
         </h1>
-        <p className="text-muted-foreground text-center max-w-lg">
+        <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-300 max-w-lg leading-relaxed text-center">
           Find perspectives, insights, and stories that spark your interest.
         </p>
       </div>
 
-      <div className="relative w-full max-w-2xl mx-auto mb-20 group">
+      <div className="relative w-full max-w-xl mx-auto mb-16">
         <form onSubmit={handleSubmit} className="relative">
           <label htmlFor="search-page-input" className="sr-only">
             Search articles
           </label>
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-custom-primary/60 dark:text-custom-primary-dark-secondary">
             <Search className="w-5 h-5" aria-hidden="true" />
           </div>
-          <Input
+          <input
             id="search-page-input"
             type="search"
-            placeholder="Type your keywords..."
+            placeholder="Search articles..."
+            className="w-full pl-12 pr-12 sm:pr-28 py-4 text-base border rounded-none border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 transition-all placeholder:text-neutral-400"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-14 pr-32 py-8 text-lg rounded-2xl border-none bg-white dark:bg-black/20 subtle-shadow ring-1 ring-border focus:ring-2 focus:ring-primary/20 transition-all"
-            aria-label="Search articles"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="absolute right-32 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-primary transition-colors mr-2"
+              className="absolute right-20 sm:right-28 top-1/2 -translate-y-1/2 p-2 text-neutral-400 hover:text-custom-primary"
               aria-label="Clear search"
             >
-              <X className="w-5 h-5" aria-hidden="true" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           )}
           <button
             type="submit"
-            className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-custom-primary text-white text-sm font-medium hover:bg-custom-primary-hover transition-colors hidden sm:block"
             aria-label="Submit search"
           >
             Search

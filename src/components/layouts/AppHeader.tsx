@@ -51,19 +51,19 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full bg-white dark:bg-neutral-950 border-b border-custom-light dark:border-neutral-800 transition-all duration-200">
       <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="transition-transform duration-200 group-hover:scale-105">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="transition-transform duration-300 group-hover:scale-110">
             <Image
               src="/globe.svg"
               alt="Logo"
-              width={28}
-              height={28}
-              className="w-6 h-6"
+              width={32}
+              height={32}
+              className="w-7 h-7"
               priority
               fetchPriority="high"
             />
           </div>
-          <span className="font-serif text-lg sm:text-xl font-medium text-custom-primary dark:text-custom-primary-dark tracking-tight">
+          <span className="font-serif text-xl font-medium text-custom-primary dark:text-custom-primary-dark tracking-tight">
             Contenable
           </span>
         </Link>
@@ -116,33 +116,27 @@ export default function Header() {
 
           <div className="flex items-center md:hidden">
             {mobileSearchOpen ? (
-              <div className="fixed inset-0 z-[60] bg-white dark:bg-neutral-950 p-6 flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                  <span className="font-serif text-xl font-medium text-custom-primary">Search</span>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setMobileSearchOpen(false)} 
-                    className="text-neutral-600 hover:text-custom-primary rounded-none"
-                  >
-                    <X className="w-6 h-6" />
-                  </Button>
-                </div>
-                <form onSubmit={handleSearch} className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <div className="fixed inset-x-0 top-0 z-[60] bg-white dark:bg-neutral-950 p-3 h-16 flex items-center shadow-md animate-in slide-in-from-top duration-300">
+                <form onSubmit={handleSearch} className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-custom-primary/60 dark:text-custom-primary-dark-secondary" />
                   <Input
                     id="header-search-mobile"
                     autoFocus
                     type="search"
                     placeholder="Search articles..."
-                    className="w-full pl-11 pr-4 py-6 text-base rounded-none border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30"
+                    className="w-full pl-9 pr-4 py-5 text-sm rounded-none border-none bg-neutral-50 dark:bg-neutral-900 focus-visible:ring-0"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
-                  <button type="submit" className="mt-4 w-full py-3 bg-custom-primary text-white text-sm font-medium rounded-none hover:bg-custom-primary-hover transition-colors">
-                    Search
-                  </button>
                 </form>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => setMobileSearchOpen(false)} 
+                  className="text-neutral-500 hover:text-custom-primary rounded-none ml-2"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
               </div>
             ) : (
               <Button
@@ -165,8 +159,17 @@ export default function Header() {
               <SheetContent side="right" className="w-[280px] p-0 border-l border-custom-light dark:border-neutral-800 bg-white dark:bg-neutral-950">
                 <div className="p-6 flex flex-col h-full">
                   <div className="flex items-center justify-between mb-8">
-                    <span className="font-serif text-xl font-medium text-custom-primary dark:text-custom-primary-dark">Contenable</span>
-                    <Button variant="ghost" size="icon" onClick={handleSheetOpen} className="text-neutral-600 hover:text-custom-primary rounded-none">
+                    <div className="flex items-center gap-2">
+                       <Image
+                          src="/globe.svg"
+                          alt="Logo"
+                          width={24}
+                          height={24}
+                          className="w-6 h-6"
+                        />
+                      <span className="font-serif text-xl font-medium text-custom-primary dark:text-custom-primary-dark">Contenable</span>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => setIsSheetOpen(false)} className="text-neutral-600 hover:text-custom-primary rounded-none">
                       <X className="w-5 h-5" />
                     </Button>
                   </div>
