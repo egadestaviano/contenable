@@ -16,22 +16,21 @@ export default function ArticleCard({ article, priority = false }: { article: Bl
 
   return (
     <div className="relative group h-full">
-      <Card className="h-full overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-none bg-white dark:bg-black/20 pt-0 rounded-2xl">
+      <Card className="h-full overflow-hidden flex flex-col transition-all duration-200 border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 pt-0 rounded-none shadow-none hover:border-custom-primary dark:hover:border-custom-primary-dark">
         <div className="relative w-full aspect-[16/10] overflow-hidden">
-            <Image
-              src={article.thumbnail || "/placeholder.svg"}
-              alt={article.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
-              priority={priority}
-              quality={85}
-              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-            />
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <Image
+            src={article.thumbnail || "/placeholder.svg"}
+            alt={article.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
+            priority={priority}
+            quality={85}
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
 
-        <CardHeader className="flex-grow space-y-4 p-6">
+        <CardHeader className="flex-grow space-y-3 p-5">
+
           <div className="flex flex-wrap gap-2 items-center">
             {visibleTags.map((tag, i) => (
               <Link
@@ -39,31 +38,31 @@ export default function ArticleCard({ article, priority = false }: { article: Bl
                 href={`/tags/${tag.slug}`}
                 className="z-20"
               >
-                <span className="text-xs font-semibold text-primary/80 bg-primary/5 px-2.5 py-0.5 rounded-full ring-1 ring-primary/10">
+                <span className="text-[10px] font-medium uppercase tracking-wide text-custom-primary dark:text-custom-primary-dark-secondary border border-custom-light dark:border-neutral-700 px-2 py-0.5 rounded-none">
                   {tag.name}
                 </span>
               </Link>
             ))}
 
             {extraTagCount > 0 && (
-              <span className="text-xs text-muted-foreground">
-                +{extraTagCount} more
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400">
+                +{extraTagCount}
               </span>
             )}
           </div>
 
-          <CardTitle className="line-clamp-2 text-lg font-bold leading-snug group-hover:text-primary transition-colors">
+          <CardTitle className="line-clamp-2 font-serif text-lg sm:text-xl font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-custom-primary dark:group-hover:text-custom-primary-dark-secondary transition-colors leading-snug">
             <Link href={`/article/${article.slug}`} className="focus:outline-none">
               <span className="absolute inset-0" aria-hidden="true" />
               {article.title}
             </Link>
           </CardTitle>
-          
-          <CardDescription className="line-clamp-2 text-sm text-muted-foreground leading-relaxed">
+
+          <CardDescription className="line-clamp-2 font-sans text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
             {article.description}
           </CardDescription>
 
-          <div className="pt-2 mt-auto flex items-center text-xs font-semibold text-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <div className="pt-2 mt-auto flex items-center font-sans text-xs font-medium text-custom-primary dark:text-custom-primary-dark-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Read Article <span className="ml-1">→</span>
           </div>
         </CardHeader>
@@ -71,4 +70,3 @@ export default function ArticleCard({ article, priority = false }: { article: Bl
     </div>
   );
 }
-

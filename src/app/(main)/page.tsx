@@ -51,14 +51,13 @@ async function ArticlesContainer({
       params={params}
       title={
         <div className="flex items-center gap-3">
-          <Icon className="w-8 h-8 text-primary" />
+          <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#5C7E8F] dark:text-[#8faec2]" />
           <span>{title}</span>
         </div>
       }
     />
   );
 }
-
 
 // Tags fetcher for Hero
 async function HeroWithData() {
@@ -69,14 +68,13 @@ async function HeroWithData() {
 export default function Home() {
   return (
     <div className="flex flex-col items-center w-full pb-20">
-      {/* Hero Section */}
+
       <section className="w-full">
         <Suspense fallback={<Hero />}>
           <HeroWithData />
         </Suspense>
       </section>
 
-      {/* New Articles */}
       <section className="w-full">
         <Suspense fallback={<ArticleSection title="Latest" articles={[]} loading={true} />}>
           <ArticlesContainer
@@ -89,7 +87,6 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Top Articles */}
       <section className="w-full">
         <Suspense fallback={<ArticleSection title="Trending" articles={[]} loading={true} />}>
           <ArticlesContainer
@@ -101,7 +98,6 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Featured Articles */}
       <section className="w-full">
         <Suspense fallback={<ArticleSection title="Featured" articles={[]} loading={true} />}>
           <ArticlesContainer

@@ -25,24 +25,22 @@ export default function FooterSearch() {
       <label htmlFor="footer-search" className="sr-only">
         Search articles
       </label>
-      <Search className="absolute left-4 text-muted-foreground w-4 h-4" aria-hidden="true" />
+      <Search className="absolute left-3 text-neutral-400 w-4 h-4" aria-hidden="true" />
       <Input
         id="footer-search"
         type="search"
         placeholder="Search articles..."
-        className="pl-11 pr-24 h-12 bg-muted/30 border-none focus:bg-white dark:focus:bg-black/40 transition-all rounded-xl shadow-sm"
+        className="pl-9 pr-20 h-11 text-sm border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 rounded-none transition-all placeholder:text-neutral-400"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         aria-label="Search articles"
       />
       <button
         type="submit"
-        className="absolute right-2 px-4 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-lg hover:opacity-90 transition-opacity uppercase tracking-widest"
+        className="absolute right-1 px-3 py-1.5 bg-custom-primary text-white text-xs font-medium hover:bg-custom-primary-hover transition-colors rounded-none uppercase tracking-wide"
       >
         Search
       </button>
     </form>
-
   );
 }
-

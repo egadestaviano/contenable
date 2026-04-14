@@ -46,6 +46,12 @@
 
 :root {
   --radius: 1rem;
+  --primary-custom: 92 126 143; /* #5C7E8F */
+  --primary-custom-hover: 74 102 117; /* #4a6675 */
+  --primary-custom-dark: 182 200 210; /* #b6c8d2 */
+  --primary-custom-dark-secondary: 143 174 194; /* #8faec2 */
+  --border-custom-light: 212 221 226; /* #D4DDE2 */
+  --bg-hover-custom-light: 212 221 226; /* #D4DDE2 */
   --background: oklch(0.99 0.005 240);
   --foreground: oklch(0.2 0.02 240);
   --card: oklch(1 0 0);
@@ -68,7 +74,11 @@
   --chart-2: oklch(0.55 0.15 190);
   --chart-3: oklch(0.4 0.1 230);
   --chart-4: oklch(0.8 0.15 80);
-  --chart-5: oklch(0.75 0.15 65);
+--chart-5: oklch(0.75 0.15 65);
+  --primary-custom-dark: 182 200 210; /* #b6c8d2 */
+  --primary-custom-dark-secondary: 143 174 194; /* #8faec2 */
+  --border-custom-light: 212 221 226; /* #D4DDE2 */
+  --bg-hover-custom-light: 212 221 226; /* #D4DDE2 */
 }
 
 .dark {
@@ -103,6 +113,19 @@
 }
 
 @layer utilities {
+  .text-custom-primary { color: rgb(var(--primary-custom)); }
+  .text-custom-primary-dark { color: rgb(var(--primary-custom-dark)); }
+  .text-custom-primary-dark-secondary { color: rgb(var(--primary-custom-dark-secondary)); }
+  .border-custom-primary { border-color: rgb(var(--primary-custom)); }
+  .border-custom-light { border-color: rgb(var(--border-custom-light)); }
+  .bg-custom-light { background-color: rgb(var(--border-custom-light)); }
+  .bg-custom-primary { background-color: rgb(var(--primary-custom)); }
+  .hover\:bg-custom-primary-hover:hover { background-color: rgb(var(--primary-custom-hover)); }
+  .hover\:text-custom-primary:hover { color: rgb(var(--primary-custom)); }
+  .ring-custom-primary { box-shadow: 0 0 0 1px rgb(var(--primary-custom)); }
+  .ring-custom-primary\/30 { box-shadow: 0 0 0 1px rgb(var(--primary-custom) / 0.3); }
+  .dark .text-custom-primary-dark { color: rgb(var(--primary-custom-dark)); }
+  .dark .border-custom-primary { border-color: rgb(var(--primary-custom-dark)); }
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/20;
   }

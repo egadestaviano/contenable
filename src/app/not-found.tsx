@@ -11,7 +11,7 @@ export default function NotFoundPage() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6">
       <div className="flex flex-col items-center gap-6">
-        {/* Icon / Logo */}
+
         <div className="relative">
           <div className="absolute -inset-4 rounded-full bg-primary/10 blur-2xl" />
           <div className="relative flex flex-col items-center">
@@ -25,7 +25,6 @@ export default function NotFoundPage() {
           </div>
         </div>
 
-        {/* Title & Message */}
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           404 — Page Not Found
         </h1>
@@ -34,7 +33,6 @@ export default function NotFoundPage() {
           Try checking the URL or head back to the homepage.
         </p>
 
-        {/* Action buttons */}
         <div className="flex gap-3 mt-4">
           <Link href="/">
             <Button className="flex items-center gap-2">
@@ -48,7 +46,6 @@ export default function NotFoundPage() {
         </div>
       </div>
 
-      {/* Background gradient accent */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none" />
     </div>
   );

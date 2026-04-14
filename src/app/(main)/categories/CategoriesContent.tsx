@@ -39,58 +39,76 @@ export default function CategoriesContent() {
   const rightLetters = sortedLetters.slice(midIndex);
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4">
-      {/* Breadcrumb */}
+    <div className="max-w-7xl mx-auto py-10 px-4 bg-white dark:bg-neutral-950">
+
       <Breadcrumb className="mb-6">
-        <BreadcrumbList>
+        <BreadcrumbList className="text-sm text-neutral-600 dark:text-neutral-400">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/" className="hover:text-[#5C7E8F] dark:hover:text-[#b6c8d2]">
+                Home
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Categories</BreadcrumbPage>
+            <BreadcrumbPage className="text-[#5C7E8F] dark:text-[#b6c8d2]">
+              Categories
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <h1 className="text-3xl sm:text-4xl font-bold mb-4">Explore Categories</h1>
-      <p className="text-muted-foreground leading-relaxed mb-12 max-w-2xl">
+      <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#5C7E8F] dark:text-[#b6c8d2] mb-3 tracking-tight">
+        Explore Categories
+      </h1>
+      <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-10 max-w-2xl">
         Discover articles by topic. Browse through our alphabetically organized collections.
       </p>
 
-      {error && <p className="text-destructive mb-4">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400 mb-4">{error}</p>}
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-24 bg-muted animate-pulse rounded-2xl"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {Array.from({ length: 2 }).map((_, colIdx) => (
+            <div key={colIdx} className="space-y-10">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i}>
+                  <div className="h-6 w-12 bg-[#D4DDE2]/50 dark:bg-neutral-800 animate-pulse mb-3 rounded-none" />
+                  <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
+                  <div className="flex flex-wrap gap-3">
+                    {Array.from({ length: 3 }).map((_, j) => (
+                      <div
+                        key={j}
+                        className="h-10 w-24 bg-[#D4DDE2]/50 dark:bg-neutral-800 animate-pulse rounded-none"
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left Column */}
-          <div className="space-y-12">
+
+          <div className="space-y-10">
             {leftLetters.map((letter) => (
-              <div key={letter} className="relative">
-                <h2 className="text-4xl font-bold text-primary/10 absolute -left-4 -top-6 -z-10 select-none">
+              <div key={letter}>
+                <h2 className="font-serif text-5xl font-medium text-[#D4DDE2] dark:text-neutral-700 -ml-1 mb-1 select-none">
                   {letter}
                 </h2>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">{letter}</h3>
-                <div className="flex flex-wrap gap-3">
+                <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
+                <div className="flex flex-wrap gap-2">
                   {groupedCategories[letter].map((category) => (
                     <Link
                       key={category.slug}
                       href={`/categories/${category.slug}`}
-                      className="px-4 py-2 bg-white dark:bg-black/20 border border-border hover:border-primary hover:text-primary rounded-xl transition-all shadow-sm"
+                      className="px-4 py-2 border border-[#D4DDE2] dark:border-neutral-700 hover:border-[#5C7E8F] hover:bg-[#5C7E8F] hover:text-white dark:hover:bg-[#5C7E8F] dark:hover:text-white transition-colors rounded-none"
                     >
-                      <span className="font-medium">{category.name}</span>
+                      <span className="font-sans text-sm font-medium">{category.name}</span>
                       {category.blogs_count !== undefined && (
-                        <span className="ml-2 text-xs text-muted-foreground">
+                        <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
                           {category.blogs_count}
                         </span>
                       )}
@@ -101,24 +119,23 @@ export default function CategoriesContent() {
             ))}
           </div>
 
-          {/* Right Column */}
-          <div className="space-y-12">
+          <div className="space-y-10">
             {rightLetters.map((letter) => (
-              <div key={letter} className="relative">
-                <h2 className="text-4xl font-bold text-primary/10 absolute -left-4 -top-6 -z-10 select-none">
+              <div key={letter}>
+                <h2 className="font-serif text-5xl font-medium text-[#D4DDE2] dark:text-neutral-700 -ml-1 mb-1 select-none">
                   {letter}
                 </h2>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">{letter}</h3>
-                <div className="flex flex-wrap gap-3">
+                <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
+                <div className="flex flex-wrap gap-2">
                   {groupedCategories[letter].map((category) => (
                     <Link
                       key={category.slug}
                       href={`/categories/${category.slug}`}
-                      className="px-4 py-2 bg-white dark:bg-black/20 border border-border hover:border-primary hover:text-primary rounded-xl transition-all shadow-sm"
+                      className="px-4 py-2 border border-[#D4DDE2] dark:border-neutral-700 hover:border-[#5C7E8F] hover:bg-[#5C7E8F] hover:text-white dark:hover:bg-[#5C7E8F] dark:hover:text-white transition-colors rounded-none"
                     >
-                      <span className="font-medium">{category.name}</span>
+                      <span className="font-sans text-sm font-medium">{category.name}</span>
                       {category.blogs_count !== undefined && (
-                        <span className="ml-2 text-xs text-muted-foreground">
+                        <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
                           {category.blogs_count}
                         </span>
                       )}
@@ -132,7 +149,7 @@ export default function CategoriesContent() {
       )}
 
       {!loading && categories.length === 0 && (
-        <p className="text-center text-muted-foreground mt-20">
+        <p className="font-sans text-sm text-center text-neutral-500 dark:text-neutral-400 mt-16">
           No categories found.
         </p>
       )}

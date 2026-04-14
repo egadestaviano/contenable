@@ -34,7 +34,7 @@ export default function TagContent() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Breadcrumb */}
+
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -77,7 +77,6 @@ export default function TagContent() {
         </div>
       )}
 
-      {/* Blogs List */}
       {!loading && tagDetail && tagDetail.blogs.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {tagDetail.blogs.map((item) => (
@@ -86,7 +85,6 @@ export default function TagContent() {
         </div>
       )}
 
-      {/* No Article */}
       {!loading && tagDetail?.blogs?.length === 0 && (
         <p className="text-center text-muted-foreground mt-6">
           No articles found for this tag.

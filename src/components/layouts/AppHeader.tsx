@@ -48,26 +48,27 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full glass border-b border-border/40 transition-all duration-300">
-      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="p-2 transition-transform duration-300 group-hover:rotate-12">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-neutral-950 border-b border-custom-light dark:border-neutral-800 transition-all duration-200">
+      <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="transition-transform duration-200 group-hover:scale-105">
             <Image
               src="/globe.svg"
               alt="Logo"
-              width={32}
-              height={32}
-              className="w-7 h-7"
+              width={28}
+              height={28}
+              className="w-6 h-6"
               priority
               fetchPriority="high"
             />
           </div>
-          <span className="text-xl font-bold tracking-tight sm:block hidden">Contenable</span>
+          <span className="font-serif text-lg sm:text-xl font-medium text-custom-primary dark:text-custom-primary-dark tracking-tight">
+            Contenable
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -77,11 +78,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative py-1 text-sm font-semibold transition-colors duration-200
+                className={`relative py-1 text-sm font-medium transition-colors duration-200
                   ${
                     isActive
-                      ? "text-primary border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-custom-primary dark:text-custom-primary-dark after:absolute after:-bottom-[1px] after:left-0 after:w-full after:h-px after:bg-custom-primary dark:after:bg-custom-primary-dark"
+                      : "text-neutral-600 dark:text-neutral-400 hover:text-custom-primary dark:hover:text-custom-primary-dark"
                   }`}
               >
                 {link.label}
@@ -90,63 +91,55 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-3">
-          {/* Desktop Search */}
-          <div className="hidden lg:block relative group">
+        <div className="flex items-center gap-2">
+
+          <div className="hidden lg:block relative">
             <form onSubmit={handleSearch} className="relative">
               <label htmlFor="header-search-desktop" className="sr-only">
                 Search articles
               </label>
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
-                <Search className="w-4 h-4" aria-hidden="true" />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">
+                <Search className="w-4 h-4" />
               </div>
               <Input
                 id="header-search-desktop"
                 type="search"
-                placeholder="Quick search..."
-                className="pl-10 w-48 bg-muted/50 border-transparent focus:bg-white dark:focus:bg-black/40 focus:w-64 transition-all duration-300 rounded-full"
+                placeholder="Search..."
+                className="pl-9 pr-4 py-1.5 w-44 text-sm border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 rounded-none transition-all placeholder:text-neutral-400"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                aria-label="Search articles"
               />
             </form>
           </div>
 
           <AuthSection />
 
-          {/* Mobile Menu & Search */}
           <div className="flex items-center md:hidden">
             {mobileSearchOpen ? (
-              <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-md p-6 flex flex-col gap-8 animate-in fade-in zoom-in duration-200">
+              <div className="fixed inset-0 z-[60] bg-white dark:bg-neutral-950 p-6 flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold tracking-tight">Search</span>
+                  <span className="font-serif text-xl font-medium text-custom-primary">Search</span>
                   <Button 
                     variant="ghost" 
                     size="icon" 
                     onClick={() => setMobileSearchOpen(false)} 
-                    className="rounded-full"
-                    aria-label="Close search"
+                    className="text-neutral-600 hover:text-custom-primary rounded-none"
                   >
-                    <X className="w-6 h-6" aria-hidden="true" />
+                    <X className="w-6 h-6" />
                   </Button>
                 </div>
-                <form onSubmit={handleSearch} className="relative group">
-                  <label htmlFor="header-search-mobile" className="sr-only">
-                    Search articles
-                  </label>
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" aria-hidden="true" />
+                <form onSubmit={handleSearch} className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                   <Input
                     id="header-search-mobile"
                     autoFocus
                     type="search"
                     placeholder="Search articles..."
-                    className="w-full pl-12 pr-4 py-8 text-lg rounded-2xl border-none bg-muted/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                    className="w-full pl-11 pr-4 py-6 text-base rounded-none border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    aria-label="Search articles"
                   />
-                  <button type="submit" className="mt-4 w-full py-4 bg-primary text-primary-foreground rounded-2xl font-bold">
+                  <button type="submit" className="mt-4 w-full py-3 bg-custom-primary text-white text-sm font-medium rounded-none hover:bg-custom-primary-hover transition-colors">
                     Search
                   </button>
                 </form>
@@ -156,30 +149,29 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setMobileSearchOpen(true)}
-                aria-label="Open search"
+                className="text-neutral-600 hover:text-custom-primary dark:text-neutral-400 dark:hover:text-custom-primary-dark rounded-none"
               >
-                <Search className="w-5 h-5" aria-hidden="true" />
+                <Search className="w-5 h-5" />
               </Button>
             )}
 
             <Sheet open={isSheetOpen}>
-
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={handleSheetOpen} aria-label="Open menu">
-                  <Menu className="w-5 h-5" aria-hidden="true" />
+                <Button variant="ghost" size="icon" onClick={handleSheetOpen} className="text-neutral-600 hover:text-custom-primary dark:text-neutral-400 dark:hover:text-custom-primary-dark rounded-none">
+                  <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
 
-              <SheetContent side="right" className="w-[300px] p-0 border-l border-border/40 glass">
+              <SheetContent side="right" className="w-[280px] p-0 border-l border-custom-light dark:border-neutral-800 bg-white dark:bg-neutral-950">
                 <div className="p-6 flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-10">
-                    <span className="text-xl font-bold tracking-tight">Contenable</span>
-                    <Button variant="ghost" size="icon" onClick={handleSheetOpen} aria-label="Close menu">
-                      <X className="w-5 h-5" aria-hidden="true" />
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="font-serif text-xl font-medium text-custom-primary dark:text-custom-primary-dark">Contenable</span>
+                    <Button variant="ghost" size="icon" onClick={handleSheetOpen} className="text-neutral-600 hover:text-custom-primary rounded-none">
+                      <X className="w-5 h-5" />
                     </Button>
                   </div>
 
-                  <nav className="flex flex-col gap-2">
+                  <nav className="flex flex-col gap-1">
                     {navLinks.map((link) => {
                       const isActive =
                         pathname === link.href ||
@@ -189,10 +181,10 @@ export default function Header() {
                         <Link
                           key={link.href}
                           href={link.href}
-                          className={`flex items-center px-4 py-3 rounded-xl text-lg font-medium transition-all ${
+                          className={`px-4 py-3 text-sm font-medium transition-colors border-l-2 ${
                             isActive
-                              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                              : "text-muted-foreground hover:bg-muted"
+                              ? "border-custom-primary text-custom-primary dark:text-custom-primary-dark bg-custom-light/10"
+                              : "border-transparent text-neutral-600 dark:text-neutral-400 hover:text-custom-primary dark:hover:text-custom-primary-dark hover:bg-custom-light/5"
                           }`}
                           onClick={() => setIsSheetOpen(false)}
                         >
@@ -202,20 +194,16 @@ export default function Header() {
                     })}
                   </nav>
 
-                  <div className="mt-auto py-6 border-t border-border/40">
+                  <div className="mt-auto pt-6 border-t border-custom-light dark:border-neutral-800">
                     <form onSubmit={handleSearch} className="relative">
-                      <label htmlFor="header-search-sheet" className="sr-only">
-                        Search articles
-                      </label>
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                       <Input
                         id="header-search-sheet"
                         type="search"
-                        placeholder="Search articles..."
-                        className="pl-10 rounded-xl"
+                        placeholder="Search..."
+                        className="pl-9 pr-3 py-2 text-sm rounded-none border border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        aria-label="Search articles"
                       />
                     </form>
                   </div>
@@ -226,7 +214,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-
   );
 }
-

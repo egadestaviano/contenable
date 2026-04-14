@@ -1,13 +1,11 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Search, X, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import { fetchTags, Tag } from "@/store/features/tags/tagSlice";
 
 export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
@@ -17,7 +15,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
   const reduxTags = useAppSelector((state) => state.tags.tags);
   const reduxLoading = useAppSelector((state) => state.tags.loading);
-  
+
   const hasInitialTags = initialTags && initialTags.length > 0;
   const tags = hasInitialTags ? initialTags : reduxTags;
   const loading = !hasInitialTags && reduxLoading;
@@ -37,45 +35,31 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   };
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,var(--color-primary)_0%,transparent_60%)] opacity-[0.08]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom,var(--color-primary)_0%,transparent_60%)] opacity-[0.05]" />
-      <div className="absolute inset-0 -z-10 bg-[grid-black/[0.03] dark:bg-grid-white/[0.03]]" />
+    <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 bg-white dark:bg-neutral-950">
 
-      {/* Title */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold tracking-widest uppercase mb-8">
-        <Sparkles className="w-3 h-3" aria-hidden="true" />
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-custom-primary border border-custom-primary/30 bg-custom-light/20 dark:bg-custom-light/5 dark:border-custom-primary/40 dark:text-custom-primary-dark mb-6">
+        <Sparkles className="w-3 h-3" />
         Featured Articles
       </div>
 
-      <h1 className="text-6xl sm:text-8xl lg:text-9xl font-normal font-serif mb-6 tracking-tight text-balance leading-[0.85]">
-        Contenable<span className="text-primary">.</span>
+      <h1 className="text-6xl sm:text-7xl lg:text-8xl font-serif font-normal text-custom-primary dark:text-custom-primary-dark tracking-tight leading-[1.1] max-w-4xl">
+        Contenable<span className="text-custom-primary">.</span>
       </h1>
 
-
-      {/* Slogan */}
-      <p className="text-lg sm:text-xl text-muted-foreground mb-12 max-w-2xl text-balance leading-relaxed">
-        Contenable is a simple platform to find and read articles from various authors. 
-        No noise, just perspectives that matter to you.
+      <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mt-4 mb-10 max-w-xl leading-relaxed">
+        A simple platform to find and read articles from various authors.
+        No noise, just perspectives that matter.
       </p>
 
-
-      {/* Search Bar */}
-      <div className="relative w-full max-w-2xl mb-10 group">
+      <div className="relative w-full max-w-xl mb-8">
         <form onSubmit={handleSearch} className="relative">
-          <label htmlFor="article-search" className="sr-only">
-            Search articles
-          </label>
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
-            <Search className="w-5 h-5" aria-hidden="true" />
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-custom-primary/60 dark:text-custom-primary-dark-secondary">
+            <Search className="w-5 h-5" />
           </div>
-          <Input
-            id="article-search"
+          <input
             type="search"
-            placeholder="What are you looking for today?"
-            aria-label="Search articles"
-            className="w-full pl-14 pr-16 sm:pr-32 py-8 text-lg rounded-2xl border-none bg-white dark:bg-black/20 subtle-shadow ring-1 ring-border focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/50"
+            placeholder="Search articles..."
+            className="w-full pl-12 pr-12 sm:pr-28 py-4 text-base border rounded-none border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 transition-all placeholder:text-neutral-400"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -83,38 +67,36 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="absolute right-16 sm:right-32 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Clear search"
+              className="absolute right-20 sm:right-28 top-1/2 -translate-y-1/2 p-2 text-neutral-400 hover:text-custom-primary"
             >
-              <X className="w-5 h-5" aria-hidden="true" />
+              <X className="w-4 h-4" />
             </button>
           )}
-          <button 
+          <button
             type="submit"
-            className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium text-sm hover:opacity-90 transition-opacity hidden sm:block"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-custom-primary text-white text-sm font-medium hover:bg-custom-primary-hover transition-colors hidden sm:block"
           >
             Search
           </button>
-
-
         </form>
       </div>
 
-      {/* Tags */}
-      <div className="flex flex-wrap justify-center items-center gap-3">
-        <span className="text-sm font-medium text-muted-foreground mr-2">Popular:</span>
+      <div className="flex flex-wrap justify-center items-center gap-2">
+        <span className="text-xs font-medium text-custom-primary dark:text-custom-primary-dark-secondary mr-1">
+          Popular:
+        </span>
         {loading
           ? Array.from({ length: 4 }).map((_, i) => (
               <span
                 key={i}
-                className="w-20 h-8 rounded-full bg-muted animate-pulse"
+                className="w-16 h-7 bg-neutral-100 dark:bg-neutral-800 border border-custom-light animate-pulse"
               />
             ))
           : tags.slice(0, 5).map((tag) => (
               <Link
                 key={tag.slug}
                 href={`/tags/${tag.slug}`}
-                className="px-4 py-2 bg-white dark:bg-black/10 border border-border hover:border-primary hover:text-primary rounded-full text-sm font-medium transition-all"
+                className="px-3 py-1 text-xs border border-custom-light dark:border-neutral-700 hover:border-custom-primary hover:bg-custom-primary hover:text-white dark:hover:bg-custom-primary dark:hover:text-white transition-colors"
               >
                 {tag.name}
               </Link>
@@ -123,4 +105,3 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
     </section>
   );
 }
-

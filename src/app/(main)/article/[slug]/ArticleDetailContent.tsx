@@ -53,39 +53,43 @@ export default function ArticleDetailContent() {
   } : null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-white dark:bg-neutral-950">
       {jsonLd && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
+
       <Breadcrumb className="mb-6">
-        <BreadcrumbList>
+        <BreadcrumbList className="text-sm text-neutral-600 dark:text-neutral-400">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/" className="hover:text-custom-primary dark:hover:text-custom-primary-dark">
+                Home
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/articles">Articles</Link>
+              <Link href="/articles" className="hover:text-custom-primary dark:hover:text-custom-primary-dark">
+                Articles
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>
-              {loading ? <Skeleton className="w-40 h-5" /> : blogDetail?.slug}
+            <BreadcrumbPage className="text-custom-primary dark:text-custom-primary-dark">
+              {loading ? <Skeleton className="w-40 h-4 rounded-none" /> : blogDetail?.slug}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* 🖼 Featured Image / Skeleton */}
-      <div className="relative w-full h-56 sm:h-72 md:h-96 mb-6 rounded-2xl overflow-hidden shadow-md">
+      <div className="relative w-full h-56 sm:h-72 md:h-96 mb-6 border border-custom-light dark:border-neutral-700 overflow-hidden rounded-none">
         {loading ? (
-          <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
+          <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
         ) : (
           <Image
             src={
@@ -96,63 +100,65 @@ export default function ArticleDetailContent() {
             alt={blogDetail?.title || "Article image"}
             fill
             sizes="(max-width: 1024px) 100vw, 896px"
-            className="object-cover rounded-2xl"
+            className="object-cover"
             priority
           />
         )}
       </div>
 
-      {/* 📝 Title */}
       {loading ? (
-        <Skeleton className="w-3/4 h-8 sm:h-10 mb-4" />
+        <Skeleton className="w-3/4 h-8 sm:h-10 mb-4 rounded-none" />
       ) : (
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 leading-snug text-gray-900">
+        <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-medium  mb-4 leading-snug">
           {blogDetail?.title}
         </h1>
       )}
 
-      {/* 🏷 Tags */}
       <div className="flex flex-wrap gap-2 mb-6">
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="w-16 h-6 rounded-full" />
+              <Skeleton key={i} className="w-16 h-6 rounded-none" />
             ))
           : (blogDetail?.tags ?? []).map((tag) => (
               <Link
                 key={tag.id}
                 href={`/tags/${tag.slug}`}
-                className="bg-primary/5 text-primary border border-primary/20 text-xs sm:text-sm px-3 py-1 rounded-full hover:bg-primary/15 transition-all"
+                className="text-xs sm:text-sm px-3 py-1 border border-custom-light dark:border-neutral-700 text-custom-primary dark:text-custom-primary-dark-secondary hover:border-custom-primary hover:bg-custom-primary hover:text-white dark:hover:bg-custom-primary dark:hover:text-white transition-colors rounded-none"
               >
-                #{tag.name}
+                {tag.name}
               </Link>
             ))}
       </div>
 
-      {/* 👤 Author & Category */}
       {loading ? (
-        <Skeleton className="w-1/2 h-5 mb-6" />
+        <Skeleton className="w-1/2 h-5 mb-6 rounded-none" />
       ) : (
-        <div className="text-sm text-gray-600 mb-8 border-b pb-6 flex items-center gap-4">
+        <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-8 pb-6 border-b border-custom-light dark:border-neutral-800 flex items-center gap-4">
           <div className="flex flex-col">
-            <span>By <span className="font-semibold text-gray-900">{blogDetail?.author?.name}</span></span>
-            <span className="text-xs text-gray-400">{blogDetail?.published_at} • {blogDetail?.category?.name}</span>
+            <span>
+              By <span className="font-medium text-custom-primary dark:text-custom-primary-dark">{blogDetail?.author?.name}</span>
+            </span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-500">
+              {blogDetail?.published_at} {blogDetail?.category?.name && `• ${blogDetail.category.name}`}
+            </span>
           </div>
         </div>
       )}
 
-      {/* 📜 Content */}
       <article
         className="
           prose prose-neutral max-w-none 
           text-sm sm:text-base leading-relaxed
-          prose-headings:text-gray-900 prose-a:text-primary
-          prose-img:rounded-xl
+          prose-headings:font-serif prose-headings:text-custom-primary prose-headings:font-medium
+          prose-a:text-custom-primary prose-a:no-underline hover:prose-a:underline
+          prose-img:rounded-none prose-img:border prose-img:border-custom-light
+          dark:prose-invert
         "
       >
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} className="w-full h-4 rounded" />
+              <Skeleton key={i} className="w-full h-4 rounded-none" />
             ))}
           </div>
         ) : (
