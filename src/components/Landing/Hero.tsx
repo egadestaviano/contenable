@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Search, X, Sparkles } from "lucide-react";
+import { Search, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { fetchTags, Tag } from "@/store/features/tags/tagSlice";
 
 export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
@@ -16,8 +15,8 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   const reduxTags = useAppSelector((state) => state.tags.tags);
   const reduxLoading = useAppSelector((state) => state.tags.loading);
 
-  const hasInitialTags = initialTags && initialTags.length > 0;
-  const tags = hasInitialTags ? initialTags : reduxTags;
+  const hasInitialTags = Boolean(initialTags && initialTags.length > 0);
+  const tags: Tag[] = hasInitialTags ? (initialTags ?? []) : reduxTags;
   const loading = !hasInitialTags && reduxLoading;
 
   useEffect(() => {
@@ -28,79 +27,99 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (search.trim()) {
-      router.push(`/search?query=${encodeURIComponent(search.trim())}`);
-      setSearch("");
-    }
+    if (!search.trim()) return;
+
+    router.push(`/search?query=${encodeURIComponent(search.trim())}`);
+    setSearch("");
   };
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 bg-white dark:bg-neutral-950">
+    <section className="relative overflow-hidden w-full bg-[radial-gradient(circle_at_top,_rgba(92,126,143,0.12),_transparent_58%)] dark:bg-[radial-gradient(circle_at_top,_rgba(143,174,194,0.15),_transparent_60%)]">
+      {/* Background Blur Circles */}
+      <div className="absolute -top-32 -left-32 w-[420px] h-[420px] bg-custom-primary/20 rounded-full blur-[120px]" />
 
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-custom-primary border border-custom-primary/30 bg-custom-light/20 dark:bg-custom-light/5 dark:border-custom-primary/40 dark:text-custom-primary-dark mb-6">
-        <Sparkles className="w-3 h-3" />
-        Featured Articles
-      </div>
+      <div className="absolute top-1/3 -right-32 w-[360px] h-[360px] bg-indigo-400/20 rounded-full blur-[110px]" />
 
-      <h1 className="text-6xl sm:text-7xl lg:text-8xl font-serif font-normal text-custom-primary dark:text-custom-primary-dark tracking-tight leading-[1.1] max-w-4xl">
-        Contenable<span className="text-custom-primary">.</span>
-      </h1>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] h-[300px] bg-sky-300/20 rounded-full blur-[130px]" />
 
-      <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mt-4 mb-10 max-w-xl leading-relaxed">
-        A simple platform to find and read articles from various authors.
-        No noise, just perspectives that matter.
-      </p>
+      <div className="relative z-10 editorial-shell py-16 sm:py-20 lg:py-24 text-center">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-custom-light dark:border-neutral-700 bg-white/85 dark:bg-neutral-900/70 text-[11px] tracking-[0.16em] uppercase font-semibold text-custom-primary dark:text-custom-primary-dark-secondary mb-7">
+          <Sparkles className="w-3.5 h-3.5" />
+          Featured Reading
+        </div>
 
-      <div className="relative w-full max-w-xl mb-8">
-        <form onSubmit={handleSearch} className="relative">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-custom-primary/60 dark:text-custom-primary-dark-secondary">
-            <Search className="w-5 h-5" />
-          </div>
-          <input
-            type="search"
-            placeholder="Search articles..."
-            className="w-full pl-12 pr-12 sm:pr-28 py-4 text-base border rounded-none border-custom-light dark:border-neutral-700 bg-white dark:bg-neutral-900 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 transition-all placeholder:text-neutral-400"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch("")}
-              className="absolute right-20 sm:right-28 top-1/2 -translate-y-1/2 p-2 text-neutral-400 hover:text-custom-primary"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-custom-primary text-white text-sm font-medium hover:bg-custom-primary-hover transition-colors hidden sm:block"
-          >
-            Search
-          </button>
-        </form>
-      </div>
+        {/* Heading */}
+        <h1 className="font-serif text-[2.65rem] sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-custom-primary dark:text-custom-primary-dark">
+          Discover articles that
+          <br className="hidden sm:block" />
+          move your thinking forward.
+        </h1>
 
-      <div className="flex flex-wrap justify-center items-center gap-2">
-        <span className="text-xs font-medium text-custom-primary dark:text-custom-primary-dark-secondary mr-1">
-          Popular:
-        </span>
-        {loading
-          ? Array.from({ length: 4 }).map((_, i) => (
-              <span
-                key={i}
-                className="w-16 h-7 bg-neutral-100 dark:bg-neutral-800 border border-custom-light animate-pulse"
-              />
-            ))
-          : tags.slice(0, 5).map((tag) => (
-              <Link
-                key={tag.slug}
-                href={`/tags/${tag.slug}`}
-                className="px-3 py-1 text-xs border border-custom-light dark:border-neutral-700 hover:border-custom-primary hover:bg-custom-primary/10 hover:text-custom-primary dark:hover:bg-custom-primary/20 dark:hover:text-custom-primary-dark-secondary transition-colors"
+        {/* Subheading */}
+        <p className="editorial-subheading max-w-2xl mx-auto mt-5">
+          Contenable brings focused stories from trusted voices, curated for
+          people who value signal over noise.
+        </p>
+
+        {/* Search */}
+        <div className="relative w-full max-w-2xl mx-auto mt-10">
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+
+            <input
+              type="search"
+              placeholder="Search articles, topics, or tags..."
+              className="w-full h-14 sm:h-16 pl-14 pr-14 sm:pr-40 rounded-2xl border border-custom-light dark:border-neutral-700 bg-white/90 dark:bg-neutral-900 text-sm sm:text-base placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-custom-primary/25"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-28 sm:right-40 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-custom-primary"
+                aria-label="Clear query"
               >
-                {tag.name}
-              </Link>
-            ))}
+                <X className="w-4 h-4" />
+              </button>
+            )}
+
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 sm:h-12 px-5 sm:px-6 rounded-xl bg-custom-primary text-white text-sm font-semibold hover:bg-custom-primary-hover transition-colors"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+
+        {/* Tags */}
+        <div className="mt-8 flex flex-wrap justify-center gap-3 items-center">
+          <span className="text-xs uppercase tracking-[0.14em] font-semibold text-neutral-500 dark:text-neutral-400">
+            Popular tags
+          </span>
+
+          <div className="flex flex-wrap gap-2.5 justify-center">
+            {loading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <span
+                    key={i}
+                    className="px-4 py-1.5 h-8 w-20 rounded-full bg-neutral-200/70 dark:bg-neutral-800 animate-pulse"
+                  />
+                ))
+              : tags.slice(0, 6).map((tag) => (
+                  <Link
+                    key={tag.slug}
+                    href={`/tags/${tag.slug}`}
+                    className="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium border border-custom-light dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-custom-primary hover:text-custom-primary dark:hover:text-custom-primary-dark-secondary transition-colors"
+                  >
+                    {tag.name}
+                  </Link>
+                ))}
+          </div>
+        </div>
       </div>
     </section>
   );

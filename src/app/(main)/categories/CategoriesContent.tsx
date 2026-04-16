@@ -6,32 +6,27 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchCategories } from "@/store/features/categories/categorySlice";
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
 export default function CategoriesContent() {
   const dispatch = useAppDispatch();
-  const { categories, loading, error } = useAppSelector(
-    (state) => state.categories
-  );
+  const { categories, loading, error } = useAppSelector((state) => state.categories);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const groupedCategories = categories.reduce<Record<string, typeof categories>>(
-    (acc, category) => {
-      const firstLetter = category.name[0].toUpperCase();
-      if (!acc[firstLetter]) acc[firstLetter] = [];
-      acc[firstLetter].push(category);
-      return acc;
-    },
-    {}
-  );
+  const groupedCategories = categories.reduce<Record<string, typeof categories>>((acc, category) => {
+    const firstLetter = category.name[0].toUpperCase();
+    if (!acc[firstLetter]) acc[firstLetter] = [];
+    acc[firstLetter].push(category);
+    return acc;
+  }, {});
 
   const sortedLetters = Object.keys(groupedCategories).sort();
   const midIndex = Math.ceil(sortedLetters.length / 2);
@@ -39,49 +34,46 @@ export default function CategoriesContent() {
   const rightLetters = sortedLetters.slice(midIndex);
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4 bg-white dark:bg-neutral-950">
-
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList className="text-sm text-neutral-600 dark:text-neutral-400">
+    <div className="editorial-page">
+      <Breadcrumb className="mb-7">
+        <BreadcrumbList className="text-sm text-neutral-500 dark:text-neutral-400">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/" className="hover:text-[#5C7E8F] dark:hover:text-[#b6c8d2]">
+              <Link href="/" className="hover:text-custom-primary dark:hover:text-custom-primary-dark">
                 Home
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-[#5C7E8F] dark:text-[#b6c8d2]">
-              Categories
-            </BreadcrumbPage>
+            <BreadcrumbPage className="text-custom-primary dark:text-custom-primary-dark">Categories</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#5C7E8F] dark:text-[#b6c8d2] mb-3 tracking-tight">
-        Explore Categories
-      </h1>
-      <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-10 max-w-2xl">
-        Discover articles by topic. Browse through our alphabetically organized collections.
-      </p>
+      <div className="mb-10">
+        <h1 className="editorial-heading">Explore Categories</h1>
+        <p className="editorial-subheading mt-4 max-w-2xl">
+          Browse by topic and jump into collections of related stories curated for deeper reading.
+        </p>
+      </div>
 
-      {error && <p className="text-sm text-red-600 dark:text-red-400 mb-4">{error}</p>}
+      {error && (
+        <div className="editorial-panel px-4 py-3 mb-6 border-red-200 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/70">
+          <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+        </div>
+      )}
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
           {Array.from({ length: 2 }).map((_, colIdx) => (
-            <div key={colIdx} className="space-y-10">
+            <div key={colIdx} className="space-y-8">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i}>
-                  <div className="h-6 w-12 bg-[#D4DDE2]/50 dark:bg-neutral-800 animate-pulse mb-3 rounded-none" />
-                  <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
+                <div key={i} className="editorial-panel p-6 animate-pulse">
+                  <div className="h-7 w-10 bg-[#D4DDE2]/50 dark:bg-neutral-800 rounded-md mb-4" />
                   <div className="flex flex-wrap gap-3">
-                    {Array.from({ length: 3 }).map((_, j) => (
-                      <div
-                        key={j}
-                        className="h-10 w-24 bg-[#D4DDE2]/50 dark:bg-neutral-800 animate-pulse rounded-none"
-                      />
+                    {Array.from({ length: 4 }).map((__, j) => (
+                      <div key={j} className="h-9 w-24 bg-[#D4DDE2]/50 dark:bg-neutral-800 rounded-full" />
                     ))}
                   </div>
                 </div>
@@ -90,68 +82,41 @@ export default function CategoriesContent() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-
-          <div className="space-y-10">
-            {leftLetters.map((letter) => (
-              <div key={letter}>
-                <h2 className="font-serif text-5xl font-medium text-[#D4DDE2] dark:text-neutral-700 -ml-1 mb-1 select-none">
-                  {letter}
-                </h2>
-                <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
-                <div className="flex flex-wrap gap-2">
-                  {groupedCategories[letter].map((category) => (
-                    <Link
-                      key={category.slug}
-                      href={`/categories/${category.slug}`}
-                      className="px-4 py-2 border border-[#D4DDE2] dark:border-neutral-700 hover:border-[#5C7E8F] hover:bg-[#5C7E8F] hover:text-white dark:hover:bg-[#5C7E8F] dark:hover:text-white transition-colors rounded-none"
-                    >
-                      <span className="font-sans text-sm font-medium">{category.name}</span>
-                      {category.blogs_count !== undefined && (
-                        <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-                          {category.blogs_count}
-                        </span>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-10">
-            {rightLetters.map((letter) => (
-              <div key={letter}>
-                <h2 className="font-serif text-5xl font-medium text-[#D4DDE2] dark:text-neutral-700 -ml-1 mb-1 select-none">
-                  {letter}
-                </h2>
-                <div className="h-px w-full bg-[#D4DDE2] dark:bg-neutral-800 mb-4" />
-                <div className="flex flex-wrap gap-2">
-                  {groupedCategories[letter].map((category) => (
-                    <Link
-                      key={category.slug}
-                      href={`/categories/${category.slug}`}
-                      className="px-4 py-2 border border-[#D4DDE2] dark:border-neutral-700 hover:border-[#5C7E8F] hover:bg-[#5C7E8F] hover:text-white dark:hover:bg-[#5C7E8F] dark:hover:text-white transition-colors rounded-none"
-                    >
-                      <span className="font-sans text-sm font-medium">{category.name}</span>
-                      {category.blogs_count !== undefined && (
-                        <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-                          {category.blogs_count}
-                        </span>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+          {[leftLetters, rightLetters].map((letters, colIndex) => (
+            <div key={colIndex} className="space-y-8">
+              {letters.map((letter) => (
+                <section key={letter} className="editorial-panel p-6">
+                  <h2 className="font-serif text-4xl font-normal text-custom-primary/80 dark:text-custom-primary-dark mb-4">
+                    {letter}
+                  </h2>
+                  <div className="flex flex-wrap gap-2.5">
+                    {groupedCategories[letter].map((category) => (
+                      <Link
+                        key={category.slug}
+                        href={`/categories/${category.slug}`}
+                        className="inline-flex items-center px-4 py-2 rounded-full border border-custom-light dark:border-neutral-700 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-custom-primary hover:text-custom-primary dark:hover:text-custom-primary-dark-secondary transition-colors"
+                      >
+                        {category.name}
+                        {category.blogs_count !== undefined && (
+                          <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
+                            {category.blogs_count}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          ))}
         </div>
       )}
 
       {!loading && categories.length === 0 && (
-        <p className="font-sans text-sm text-center text-neutral-500 dark:text-neutral-400 mt-16">
-          No categories found.
-        </p>
+        <div className="editorial-panel py-16 text-center mt-8">
+          <p className="editorial-subheading">No categories found.</p>
+        </div>
       )}
     </div>
   );

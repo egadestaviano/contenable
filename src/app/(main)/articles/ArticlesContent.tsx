@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { fetchBlogs } from "@/store/features/blogs/blogSlice";
 import ArticleCard from "@/components/blogs/ArticleCard";
@@ -23,48 +23,45 @@ export default function ArticlesContent() {
   }, [dispatch]);
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4 bg-white dark:bg-neutral-950">
-
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList className="text-sm text-neutral-600 dark:text-neutral-400">
+    <div className="editorial-page">
+      <Breadcrumb className="mb-7">
+        <BreadcrumbList className="text-sm text-neutral-500 dark:text-neutral-400">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/" className="hover:text-[#5C7E8F] dark:hover:text-[#b6c8d2]">
+              <Link href="/" className="hover:text-custom-primary dark:hover:text-custom-primary-dark">
                 Home
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-[#5C7E8F] dark:text-[#b6c8d2]">
-              Articles
-            </BreadcrumbPage>
+            <BreadcrumbPage className="text-custom-primary dark:text-custom-primary-dark">Articles</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#5C7E8F] dark:text-[#b6c8d2] mb-3 tracking-tight">
-        All Articles
-      </h1>
+      <div className="mb-10">
+        <h1 className="editorial-heading">All Articles</h1>
+        <p className="editorial-subheading max-w-2xl mt-4">
+          Explore a curated stream of ideas, commentary, and long-form stories from across topics.
+        </p>
+      </div>
 
-      <p className="font-sans text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8">
-        Discover all the latest articles curated for you.
-      </p>
-
-      {error && <p className="text-sm text-red-600 dark:text-red-400 mb-4">{error}</p>}
+      {error && (
+        <div className="editorial-panel px-4 py-3 mb-6 border-red-200 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/70">
+          <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+        </div>
+      )}
 
       {loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="animate-pulse border border-[#D4DDE2] dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-none h-[320px]"
-            >
-              <div className="w-full aspect-[16/10] bg-[#D4DDE2]/50 dark:bg-neutral-800" />
+            <div key={i} className="editorial-panel h-[320px] animate-pulse">
+              <div className="w-full aspect-[16/10] rounded-t-2xl bg-[#D4DDE2]/50 dark:bg-neutral-800" />
               <div className="p-5 space-y-3">
-                <div className="h-4 w-16 bg-[#D4DDE2]/50 dark:bg-neutral-800 rounded-none" />
-                <div className="h-5 w-full bg-[#D4DDE2]/50 dark:bg-neutral-800 rounded-none" />
-                <div className="h-4 w-3/4 bg-[#D4DDE2]/50 dark:bg-neutral-800 rounded-none" />
+                <div className="h-5 w-20 rounded-full bg-[#D4DDE2]/55 dark:bg-neutral-800" />
+                <div className="h-6 w-full rounded-md bg-[#D4DDE2]/55 dark:bg-neutral-800" />
+                <div className="h-4 w-3/4 rounded-md bg-[#D4DDE2]/55 dark:bg-neutral-800" />
               </div>
             </div>
           ))}
@@ -80,10 +77,8 @@ export default function ArticlesContent() {
       )}
 
       {!loading && blogs.length === 0 && (
-        <div className="py-16 text-center border border-[#D4DDE2] dark:border-neutral-800 rounded-none">
-          <p className="font-sans text-sm text-neutral-500 dark:text-neutral-400">
-            No articles found.
-          </p>
+        <div className="editorial-panel py-16 text-center">
+          <p className="editorial-subheading">No articles found yet.</p>
         </div>
       )}
     </div>

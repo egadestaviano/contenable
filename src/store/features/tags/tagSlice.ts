@@ -26,7 +26,7 @@ export interface TagState {
 const initialState: TagState = {
   tags: [],
   tagDetail: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 
