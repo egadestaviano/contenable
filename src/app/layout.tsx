@@ -65,9 +65,9 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   icons: {
-    icon: "/globe.svg",
-    shortcut: "/globe.svg",
-    apple: "/globe.svg",
+    icon: "/favicon.png?v=17042026",
+    shortcut: "/favicon.png?v=17042026",
+    apple: "/favicon.png?v=17042026",
   },
 };
 
@@ -108,7 +108,7 @@ export default function RootLayout({
           <link rel="preconnect" href="https://api-contenable.egadestaviano.my.id" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://api-contenable.egadestaviano.my.id" />
 
-          <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" fetchPriority="high" />
+          <link rel="preload" href="/favicon.png?v=17042026" as="image" type="image/png" fetchPriority="high" />
         </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${dmSerif.variable} antialiased bg-gray-50 text-gray-900`}

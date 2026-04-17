@@ -40,7 +40,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
       <div className="absolute top-1/3 -right-32 w-[360px] h-[360px] bg-indigo-400/20 rounded-full blur-[110px]" />
 
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] h-[300px] bg-sky-300/20 rounded-full blur-[130px]" />
+      <div className="absolute bottom-0 left-1/3 -translate-x-1/2 w-[480px] h-[300px] bg-sky-300/20 rounded-full blur-[130px]" />
 
       <div className="relative z-10 editorial-shell py-16 sm:py-20 lg:py-24 text-center">
         {/* Badge */}
@@ -50,12 +50,13 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
         </div>
 
         {/* Heading */}
-        <h1 className="font-serif text-[2.65rem] sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-custom-primary dark:text-custom-primary-dark">
+        <h1 className="font-serif text-[2.65rem] sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-neutral-900 dark:text-white">
           Discover articles that
           <br className="hidden sm:block" />
-          move your thinking forward.
+          <span className="text-transparent italic font-light bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-500 animate-gradient-x">
+            move your thinking forward.
+          </span>
         </h1>
-
         {/* Subheading */}
         <p className="editorial-subheading max-w-2xl mx-auto mt-5">
           Contenable brings focused stories from trusted voices, curated for
