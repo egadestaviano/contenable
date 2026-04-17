@@ -34,7 +34,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   };
 
   return (
-    <section className="relative overflow-hidden w-full bg-[radial-gradient(circle_at_top,_rgba(92,126,143,0.12),_transparent_58%)] dark:bg-[radial-gradient(circle_at_top,_rgba(143,174,194,0.15),_transparent_60%)]">
+    <section className="relative w-full bg-[radial-gradient(circle_at_top,_rgba(92,126,143,0.12),_transparent_58%)] dark:bg-[radial-gradient(circle_at_top,_rgba(143,174,194,0.15),_transparent_60%)]">
       {/* Background Blur Circles */}
       <div className="absolute -top-32 -left-32 w-[420px] h-[420px] bg-custom-primary/20 rounded-full blur-[120px]" />
 

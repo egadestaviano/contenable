@@ -6,7 +6,6 @@ import {
   Zap,
   Heart,
   ArrowRight,
-  Newspaper,
 } from "lucide-react";
 import {
   Breadcrumb,
