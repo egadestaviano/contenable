@@ -1,9 +1,14 @@
 import Link from "next/link";
 import FooterSearch from "./FooterSearch";
-import { ArrowUpRight, } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const navigationLinks = [
+    { href: "/", label: "Home" },
+    { href: "/articles", label: "Articles" },
+    { href: "/categories", label: "Categories" },
+  ];
 
   return (
     <footer className="w-full mt-20 bg-[#0a0a0a] text-white overflow-hidden relative">
@@ -11,7 +16,7 @@ export default function Footer() {
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] bg-custom-primary/10 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="editorial-shell pt-16 pb-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-12 lg:gap-14 items-start">
           
           {/* Brand Section */}
           <div className="space-y-10">
@@ -30,42 +35,38 @@ export default function Footer() {
           </div>
 
           {/* Links Section */}
-          <div className="grid grid-cols-2 gap-8 lg:gap-12">
-            <div className="space-y-6">
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-custom-primary">
-                Navigation
-              </h3>
-              <ul className="space-y-4">
-                {["Home", "Articles", "Categories", "Top Stories"].map((item) => (
-                  <li key={item}>
-                    <Link 
-                      href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                      className="group flex items-center text-neutral-400 hover:text-white transition-colors text-sm"
-                    >
-                      {item}
-                      <ArrowUpRight size={12} className="ml-1 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="space-y-6">
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-custom-primary">
-                Company
-              </h3>
-              <ul className="space-y-4">
-                {["About", "Contact", "Privacy Policy", "Terms of Service"].map((item) => (
-                  <li key={item}>
-                    <Link 
-                      href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                      className="text-neutral-400 hover:text-white transition-colors text-sm"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          <div className="lg:pl-4">
+            <div className="max-w-xs space-y-6">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-custom-primary">
+                  Navigation
+                </p>
+                <ul className="mt-6 space-y-4">
+                  {navigationLinks.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="group flex items-center text-neutral-400 hover:text-white transition-colors text-sm"
+                      >
+                        {item.label}
+                        <ArrowUpRight
+                          size={12}
+                          className="ml-1 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="border-t border-neutral-800/70 pt-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-custom-primary">
+                  Editorial Note
+                </p>
+                <p className="mt-4 text-sm leading-7 text-neutral-400">
+                  A quieter place to discover articles, categories, and ideas worth reading.
+                </p>
+              </div>
             </div>
           </div>
         </div>

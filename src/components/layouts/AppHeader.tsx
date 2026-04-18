@@ -40,8 +40,6 @@ export default function Header() {
     { href: "/", label: "Home" },
     { href: "/articles", label: "Articles" },
     { href: "/categories", label: "Categories" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
   ];
 
   const submitSearch = (e: React.FormEvent<HTMLFormElement>) => {

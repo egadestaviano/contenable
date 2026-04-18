@@ -180,6 +180,10 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     text-rendering: optimizeLegibility;
   }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
 }
 
 /* ─── UTILITIES ─────────────────────────────────────────────────── */
