@@ -73,7 +73,7 @@ export default function Header() {
         </div>
 
         {/* TENGAH: Navigasi (Desktop) */}
-        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 z-10">
+        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 z-10">
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -111,7 +111,7 @@ export default function Header() {
           <AuthSection />
 
           {/* Mobile Buttons */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center lg:hidden">
             {mobileSearchOpen ? (
               <div className="fixed inset-x-0 top-0 z-[60] h-16 bg-white dark:bg-neutral-950 border-b border-custom-light/70 dark:border-neutral-800 px-4 flex items-center gap-2">
                 <form onSubmit={submitSearch} className="relative flex-1">

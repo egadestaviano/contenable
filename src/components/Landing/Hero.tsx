@@ -34,7 +34,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
   };
 
   return (
-    <section className="relative w-full bg-[radial-gradient(circle_at_top,_rgba(92,126,143,0.12),_transparent_58%)] dark:bg-[radial-gradient(circle_at_top,_rgba(143,174,194,0.15),_transparent_60%)]">
+    <section className="relative w-full overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(92,126,143,0.12),_transparent_58%)] dark:bg-[radial-gradient(circle_at_top,_rgba(143,174,194,0.15),_transparent_60%)]">
       {/* Background Blur Circles */}
       <div className="absolute -top-32 -left-32 w-[420px] h-[420px] bg-custom-primary/20 rounded-full blur-[120px]" />
 
@@ -50,10 +50,10 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
         </div>
 
         {/* Heading */}
-        <h1 className="font-serif text-[2.65rem] sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-neutral-900 dark:text-white">
           Discover articles that
           <br className="hidden sm:block" />
-          <span className="text-transparent italic font-light bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-500 animate-gradient-x">
+          <span className="text-transparent italic font-light text-custom-primary">
             move your thinking forward.
           </span>
         </h1>
@@ -62,16 +62,16 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
           Contenable brings focused stories from trusted voices, curated for
           people who value signal over noise.
         </p>
-
+ 
         {/* Search */}
         <div className="relative w-full max-w-2xl mx-auto mt-10">
           <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-
+ 
             <input
               type="search"
               placeholder="Search articles, topics, or tags..."
-              className="w-full h-14 sm:h-16 pl-14 pr-14 sm:pr-40 rounded-2xl border border-custom-light dark:border-neutral-700 bg-white/90 dark:bg-neutral-900 text-sm sm:text-base placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-custom-primary/25"
+              className="w-full h-14 sm:h-16 pl-14 pr-24 sm:pr-40 rounded-2xl border border-custom-light dark:border-neutral-700 bg-white/90 dark:bg-neutral-900 text-sm sm:text-base placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-custom-primary/25"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -80,7 +80,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-28 sm:right-40 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-custom-primary"
+                className="absolute right-28 sm:right-40 top-1/2 -translate-y-1/2 p-1.5 hover:cursor-pointer text-neutral-400 hover:text-custom-primary"
                 aria-label="Clear query"
               >
                 <X className="w-4 h-4" />
@@ -89,7 +89,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 sm:h-12 px-5 sm:px-6 rounded-xl bg-custom-primary text-white text-sm font-semibold hover:bg-custom-primary-hover transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 sm:h-12 px-5 sm:px-6 hover:cursor-pointer rounded-xl bg-custom-primary text-white text-sm font-semibold hover:bg-custom-primary-hover transition-colors"
             >
               Search
             </button>

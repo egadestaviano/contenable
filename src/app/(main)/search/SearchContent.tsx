@@ -81,7 +81,7 @@ export default function SearchContent() {
           )}
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-custom-primary text-white text-sm font-medium hover:bg-custom-primary-hover transition-colors hidden sm:block"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 hover:cursor-pointer bg-custom-primary text-white text-sm font-medium hover:bg-custom-primary-hover transition-colors hidden sm:block"
             aria-label="Submit search"
           >
             Search

@@ -67,7 +67,7 @@ async function HeroWithData() {
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center w-full pb-20">
+    <div className="flex flex-col items-center w-full pb-20 overflow-x-hidden">
 
       <section className="w-full">
         <Suspense fallback={<Hero />}>
