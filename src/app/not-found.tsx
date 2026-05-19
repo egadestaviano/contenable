@@ -34,15 +34,19 @@ export default function NotFoundPage() {
         </p>
 
         <div className="flex gap-3 mt-4">
-          <Link href="/">
-            <Button className="flex items-center gap-2">
+          <Button asChild className="flex items-center gap-2 cursor-pointer bg-custom-primary text-white hover:bg-custom-primary-hover dark:bg-custom-primary dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+            <Link href="/">
               <ArrowLeft className="w-4 h-4" />
               Go Home
-            </Button>
-          </Link>
-          <Link href="/search">
-            <Button variant="outline">Search Articles</Button>
-          </Link>
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="border-custom-light dark:border-neutral-700 cursor-pointer text-custom-primary dark:text-custom-primary-dark hover:!bg-custom-primary hover:!text-white hover:!border-custom-primary dark:hover:!bg-white dark:hover:!text-black dark:hover:!border-white transition-all duration-300"
+          >
+            <Link href="/search">Search Articles</Link>
+          </Button>
         </div>
       </div>
 

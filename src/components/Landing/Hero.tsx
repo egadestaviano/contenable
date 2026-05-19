@@ -42,7 +42,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
       <div className="absolute bottom-0 left-1/3 -translate-x-1/2 w-[480px] h-[300px] bg-sky-300/20 rounded-full blur-[130px]" />
 
-      <div className="relative z-10 editorial-shell py-16 sm:py-20 lg:py-24 text-center">
+      <div className="relative z-10 editorial-shell pt-16 sm:pt-20 lg:pt-24 pb-14 sm:pb-20 text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-custom-light dark:border-neutral-700 bg-white/85 dark:bg-neutral-900/70 text-[11px] tracking-[0.16em] uppercase font-semibold text-custom-primary dark:text-custom-primary-dark-secondary mb-7">
           <Sparkles className="w-3.5 h-3.5" />
@@ -80,7 +80,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-28 sm:right-40 top-1/2 -translate-y-1/2 p-1.5 hover:cursor-pointer text-neutral-400 hover:text-custom-primary"
+                className="absolute right-28 sm:right-40 top-1/2 -translate-y-1/2 p-1.5 cursor-pointer text-neutral-400 hover:text-custom-primary"
                 aria-label="Clear query"
               >
                 <X className="w-4 h-4" />
@@ -89,7 +89,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
 
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 sm:h-12 px-5 sm:px-6 hover:cursor-pointer rounded-xl bg-custom-primary text-white text-sm font-semibold hover:bg-custom-primary-hover transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 sm:h-12 px-5 sm:px-6 cursor-pointer rounded-xl bg-custom-primary text-white text-sm font-semibold hover:bg-custom-primary-hover dark:hover:bg-white dark:hover:text-black transition-all duration-300"
             >
               Search
             </button>
@@ -102,7 +102,7 @@ export default function Hero({ initialTags }: { initialTags?: Tag[] }) {
             Popular tags
           </span>
 
-          <div className="flex flex-wrap gap-2.5 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center">
             {loading
               ? Array.from({ length: 6 }).map((_, i) => (
                   <span

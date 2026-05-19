@@ -74,7 +74,7 @@ export default function ArticleSection({
   const skeletonCount = 8;
 
   return (
-    <section className="editorial-shell my-14 sm:my-20">
+    <section className="editorial-shell mb-14 sm:mb-20">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
         <div className="space-y-2">

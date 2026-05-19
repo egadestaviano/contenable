@@ -31,7 +31,7 @@ export default function AuthSection() {
             <Button
               variant="outline"
               size="sm"
-              className="border-custom-light dark:border-neutral-700 hover:cursor-pointer text-custom-primary dark:text-custom-primary-dark hover:bg-custom-light/20 hover:text-custom-primary dark:hover:bg-neutral-800 dark:hover:text-custom-primary-dark"
+              className="border-custom-light dark:border-neutral-700 cursor-pointer text-custom-primary dark:text-custom-primary-dark hover:!bg-custom-primary hover:!text-white hover:!border-custom-primary dark:hover:!bg-white dark:hover:!text-black dark:hover:!border-white transition-all duration-300"
             >
               Sign In
             </Button>
@@ -40,7 +40,7 @@ export default function AuthSection() {
           <SignUpButton mode="redirect">
             <Button
               size="sm"
-              className="bg-custom-primary text-white hover:bg-custom-primary-hover hover:cursor-pointer dark:bg-custom-primary dark:hover:bg-custom-primary-hover"
+              className="bg-custom-primary text-white hover:bg-custom-primary-hover cursor-pointer dark:bg-custom-primary dark:hover:bg-white dark:hover:text-black transition-all duration-300"
             >
               Sign Up
             </Button>

@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'api-contenable.egadestaviano.my.id',
         pathname: '/storage/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'api-contenable.devanyudistira.my.id',
+        pathname: '/storage/**'
       }
     ]
   },
